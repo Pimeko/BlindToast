@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>BlindToast</title>
+  </head>
+
+  <body>
+    <h1>Blind Toast</h1>
+
+    <p>
+      <input type="text" id="pseudo" placeholder="Enter Pseudo"/>
+      <input type="button" value="Sign Up" id="signup" onclick="signup(this)"/>
+    </p>
+
+    <div id="video-placeholder" style="visibility: hidden"></div>
+    <script src="https://www.youtube.com/iframe_api"></script>
+
+
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io.connect('http://localhost:8080');
+
+      // Receivers
+      socket.on('message', function(message) {
+        console.log('[SERV] ' + message);
+      });
+
+      // Emitters
+      var pseudo = document.getElementById("pseudo");
+      var signup = function(e) {
+        console.log("signing up " + pseudo.getAttribute("id"));
+        socket.emit("signup",
+        {
+          'pseudo': pseudo.value
+        });
+      }
+      // YOUTUBE
+      var player;
+      function onYouTubeIframeAPIReady() {
+        player = new YT.Player('video-placeholder', {
+            width: 600,
+            height: 400,
+            videoId: 'Mu_qEDy41JY',
+            events: {
+              'onReady': onPlayerReady
+            }
+        });
+      }
+
+      function onPlayerReady(event) {
+        //event.target.playVideo();
+      }
+
+
+      socket.on('change_video', function(video) {
+        if (player)
+        {
+          player.loadVideoById(video.id);
+          /*if (player.isMuted()) {
+            player.unMute();
+          }*/
+          player.playVideo();
+        }
+      })
+    </script>
+  </body>
+</html>
