@@ -12,14 +12,28 @@
       <input type="text" id="pseudo" placeholder="Enter Pseudo"/>
       <input type="button" value="Sign Up" id="signup" onclick="signup(this)"/>
     </p>
+    <p>
+      <input type="text" id="answerText" placeholder="Your answer here"/>
+      <input type="button" value="Answer" id="answerButton" onclick="answer(this)"/>
+    </p>
 
     <div id="video-placeholder" style="visibility: hidden"></div>
     <script src="https://www.youtube.com/iframe_api"></script>
-
-
-
     <script src="/socket.io/socket.io.js"></script>
     <script>
+      var pseudo = document.getElementById("pseudo");
+      var signUpButton = document.getElementById("signup");
+      var answerText = document.getElementById("answerText");
+      var answerButton = document.getElementById("answerButton");
+
+      function changeConnected(val) {
+        pseudo.style.visibility = val ? "hidden" : "visible";
+        signUpButton.style.visibility = val ? "hidden" : "visible";
+        answerText.style.visibility = val ? "visible" : "hidden";
+        answerButton.style.visibility = val ? "visible" : "hidden";
+      }
+      changeConnected(false);
+
       var socket = io.connect('http://localhost:8080');
 
       // Receivers
@@ -28,42 +42,46 @@
       });
 
       // Emitters
-      var pseudo = document.getElementById("pseudo");
-      var signup = function(e) {
-        console.log("signing up " + pseudo.getAttribute("id"));
+      function signup(e) {
         socket.emit("signup",
         {
           'pseudo': pseudo.value
         });
       }
+
+      socket.on('connection_success', function() {
+        changeConnected(true);
+      })
+
       // YOUTUBE
       var player;
       function onYouTubeIframeAPIReady() {
         player = new YT.Player('video-placeholder', {
             width: 600,
             height: 400,
-            videoId: 'Mu_qEDy41JY',
-            events: {
-              'onReady': onPlayerReady
-            }
+            start: 60,
+            end: 80,
+            videoId: 'Mu_qEDy41JY'
         });
       }
 
-      function onPlayerReady(event) {
-        //event.target.playVideo();
-      }
-
-
       socket.on('change_video', function(video) {
-        if (player)
-        {
+        if (player) {
           player.loadVideoById(video.id);
-          /*if (player.isMuted()) {
-            player.unMute();
-          }*/
+          player.start = 60;
+          player.end = 80;
+
+          if (player.isMuted()) { player.unMute(); }
+
           player.playVideo();
+          console.log("Playing " + video.title + " by " + video.artist);
         }
       })
+
+      function answer() {
+        var val = answerText.value;
+        socket.emit('answer', val);
+      }
     </script>
   </body>
 </html>
