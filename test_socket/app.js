@@ -19,6 +19,8 @@ var videoList = [
   {'id' : "cBU8reYYE10", 'artist' : 'Timber Timbre', 'title' : 'We\'ll Find Out'}];
 var videoIndex = 0;
 var currVideo = {};
+var titlesList = [];
+var artistsList = [];
 
 io.sockets.on('connection', function (socket) {
   socket.on('signup', function (obj) {
@@ -32,16 +34,21 @@ io.sockets.on('connection', function (socket) {
     });
 
     socket.on('answer', function(val) {
-      answer(socket, val)
-    })
+      answer(socket, val, pseudo)
+    });
 
+    socket.on('change_music', function() {
+      changeMusic();
+    })
   });
 });
 
 function connect(socket, pseudo) {
   clients.push({
     'socket' : socket,
-    'pseudo' : pseudo
+    'pseudo' : pseudo,
+    'titlesFound' : [],
+    'artistsFound' : []
   });
   socket.emit('connection_success');
 }
@@ -63,8 +70,20 @@ function changeVideoIndex() {
   }
 }
 
+function splitAndLower(array) {
+  var res = [];
+  var temp = array.split(" ");
+  for (var t of temp) {
+    res.push(t.toLowerCase());
+  }
+  return res;
+}
+
 function emitNewVideo() {
   currVideo = videoList[videoIndex];
+  titlesList = splitAndLower(currVideo.title);
+  artistsList = splitAndLower(currVideo.artist);
+
   for (var client of clients) {
     console.log(client.pseudo);
     client.socket.emit("message", "Change video to " + currVideo.title);
@@ -72,19 +91,68 @@ function emitNewVideo() {
   }
 }
 
-function answer(socket, val) {
-  console.log("got answer '" + val + "'");
-  socket.emit('message', currVideo.title == val ? "good title" : "bad title");
+function getClientByPseudo(pseudo) {
+    var res = null;
+    for (var client of clients) {
+      if (client.pseudo === pseudo) {
+        res = client;
+      }
+    }
+    return res;
 }
 
+function keyExists(key, array) {
+  for (var k of array) {
+    if (k === key) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function answer(socket, val, pseudo) {
+  var currClient = getClientByPseudo(pseudo);
+  var answerArray = splitAndLower(val);
+  var foundAtLeastOne = false;
+  var hadTitle = currClient.titlesFound.length === titlesList.length;
+  var hadArtist = currClient.artistsFound.length === artistsList.length;
+
+  for (var word of answerArray) {
+    if (keyExists(word, titlesList) && !keyExists(word, currClient.titlesFound)) {
+      currClient.titlesFound.push(word);
+      foundAtLeastOne = true;
+    }
+
+    if (keyExists(word, artistsList) && !keyExists(word, currClient.artistsFound)) {
+      currClient.artistsFound.push(word);
+      foundAtLeastOne = true;
+    }
+  }
+
+  socket.emit("message", "Found at least one : " + foundAtLeastOne);
+
+  if (!hadTitle && currClient.titlesFound.length === titlesList.length) {
+    socket.emit("message", "Found title !");
+  }
+
+  if (!hadArtist && currClient.artistsFound.length === artistsList.length) {
+    socket.emit("message", "Found artist !");
+  }
+}
+
+/*
 // Emit every 3 seconds
 setInterval(function(){
+  changeMusic();
+}, 30 * 1000);*/
+
+function changeMusic() {
   console.log();
   console.log("------------");
   console.log("Updating " + ((clients.length === 0) ? "(empty)" : ""));
 
   emitNewVideo();
   changeVideoIndex();
-}, 20 * 1000);
+}
 
 server.listen(8080);

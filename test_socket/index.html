@@ -16,6 +16,9 @@
       <input type="text" id="answerText" placeholder="Your answer here"/>
       <input type="button" value="Answer" id="answerButton" onclick="answer(this)"/>
     </p>
+    <p>
+      <input type="button" value="Change Music" onclick="change_music()"/>
+    </p>
 
     <div id="video-placeholder" style="visibility: hidden"></div>
     <script src="https://www.youtube.com/iframe_api"></script>
@@ -35,6 +38,10 @@
       changeConnected(false);
 
       var socket = io.connect('http://localhost:8080');
+
+      socket.on('connect', function() {
+        console.log('socket connected', socket.connected);
+      });
 
       // Receivers
       socket.on('message', function(message) {
@@ -81,6 +88,10 @@
       function answer() {
         var val = answerText.value;
         socket.emit('answer', val);
+      }
+
+      function change_music() {
+        socket.emit('change_music');
       }
     </script>
   </body>
