@@ -34,8 +34,8 @@ io.sockets.on('connection', function (socket) {
   socket.on("message", function (message) {
     console.log("[CLIENT] " + message);
   })
-  console.log("New user !")
-  socket.emit("message", "you are a new user");
+  console.log("New visitor !")
+  socket.emit("message", "you are a new visitor");
 
   socket.on('login', function (obj) {
     var pseudo = obj.pseudo;

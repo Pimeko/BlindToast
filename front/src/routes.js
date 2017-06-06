@@ -1,6 +1,10 @@
 import React from 'react'
 import { Route } from 'react-router'
 import Home from './containers/Home'
-//import Test from './containers/Test'
+import InGame from './containers/InGame'
 
-export default <Route path="/" component={Home}></Route>
+export default
+<Route>
+    <Route path="/" component={Home} />
+    <Route path="/ingame" component={InGame} />
+</Route>

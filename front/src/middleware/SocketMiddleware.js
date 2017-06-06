@@ -1,5 +1,6 @@
 import * as types from '../types';
 import { login } from '../actions'
+import { browserHistory } from 'react-router'
 
 var io = require('socket.io-client');
 
@@ -20,6 +21,7 @@ const socketMiddleware = (function(){
         socket.on('login_success', (obj) => {
           console.log("Login success !");
           store.dispatch(login(obj.pseudo));
+          browserHistory.push('/ingame');
         });
 
         socket.on('login_failed', (message) => {
