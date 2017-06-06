@@ -19,7 +19,7 @@ class Home extends Component {
     return (
       <div>
         <p>
-          Welcome to blind toast !
+          Welcome to blind toast ! Pseudo : {this.props.pseudo}
         </p>
         <Login login={(pseudo) => this.login(pseudo)}/>
       </div>
@@ -28,11 +28,10 @@ class Home extends Component {
 }
 
 function mapStateToProps(state) {
-  const { test, maximilien } = state;
+  const { user } = state;
 
   return {
-    count: test.count,
-    maximilien_value: maximilien.value
+    pseudo: user.pseudo
   }
 }
 

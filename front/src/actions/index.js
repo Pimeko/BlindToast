@@ -22,3 +22,8 @@ export const socket_login = (pseudo) => ({
   type: types.SOCKET_LOGIN,
   pseudo: pseudo
 })
+
+export const login = (pseudo) => ({
+  type: types.LOGIN,
+  pseudo: pseudo
+})

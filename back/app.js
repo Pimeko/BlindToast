@@ -36,24 +36,38 @@ io.sockets.on('connection', function (socket) {
   })
   console.log("New user !")
   socket.emit("message", "you are a new user");
-  
+
   socket.on('login', function (obj) {
     var pseudo = obj.pseudo;
-    console.log('New login : ' + pseudo);
 
-    connect(socket, pseudo);
+    var alreadyTaken = false;
+    for (var p of clients) {
+      if (p.pseudo === pseudo) {
+        alreadyTaken = true;
+      }
+    }
 
-    socket.on('disconnect', function() {
-      disconnect(pseudo)
-    });
+    if (alreadyTaken) {
+      socket.emit("login_failed", "Pseudo already taken !");
+    }
+    else {
+      socket.emit("login_success", {pseudo: pseudo});
+      console.log('New login : ' + pseudo);
 
-    socket.on('answer', function(val) {
-      answer(socket, val, pseudo)
-    });
+      connect(socket, pseudo);
 
-    socket.on('change_music', function() {
-      changeMusic();
-    })
+      socket.on('disconnect', function() {
+        disconnect(pseudo)
+      });
+
+      socket.on('answer', function(val) {
+        answer(socket, val, pseudo)
+      });
+
+      socket.on('change_music', function() {
+        changeMusic();
+      })
+    }
   });
 });
 

@@ -1,4 +1,5 @@
 import * as types from '../types';
+import { login } from '../actions'
 
 var io = require('socket.io-client');
 
@@ -14,6 +15,15 @@ const socketMiddleware = (function(){
 
         socket.on('message', function(message) {
           console.log('[SERV] ' + message);
+        });
+
+        socket.on('login_success', (obj) => {
+          console.log("Login success !");
+          store.dispatch(login(obj.pseudo));
+        });
+
+        socket.on('login_failed', (message) => {
+          console.log("Login failed : " + message)
         });
       break;
 
