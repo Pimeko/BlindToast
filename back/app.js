@@ -64,8 +64,8 @@ io.sockets.on('connection', function (socket) {
         answer(socket, val, pseudo)
       });
 
-      socket.on('change_music', function() {
-        changeMusic();
+      socket.on('change_video', function() {
+        changeVideo();
       })
     }
   });
@@ -169,12 +169,13 @@ function answer(socket, val, pseudo) {
 }
 
 /*
-// Emit every 3 seconds
+// Emit every n seconds
 setInterval(function(){
-  changeMusic();
-}, 30 * 1000);*/
+  changeVideo();
+}, 6 * 1000);
+*/
 
-function changeMusic() {
+function changeVideo() {
   console.log();
   console.log("------------");
   console.log("Updating " + ((clients.length === 0) ? "(empty)" : ""));

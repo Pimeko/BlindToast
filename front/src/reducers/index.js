@@ -3,9 +3,11 @@ import { combineReducers } from 'redux'
 
 // Reducers
 import user from './user';
+import video from './video';
 
 const rootReducer = combineReducers({
   user,
+  video,
   routing
 })
 

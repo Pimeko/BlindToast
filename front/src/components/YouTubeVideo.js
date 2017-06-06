@@ -2,20 +2,12 @@ import React, { Component } from 'react';
 import YouTube from 'react-youtube';
 
 export default class YouTubeVideo extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      videoId: '2g811Eo7K8U'
-    }
+  onReady(event) {
+    event.target.unMute();
+    event.target.playVideo();
   }
 
-  changeVideo() {
-    this.setState({
-      videoId: 'YhtUfOnGJ3E'
-    });
-  }
-
-  _onReady(event) {
+  onStateChange(event) {
     event.target.unMute();
     event.target.playVideo();
   }
@@ -31,12 +23,13 @@ export default class YouTubeVideo extends Component {
     return (
       <div>
         <p>
-          <button onClick={() => this.changeVideo()}>Change video</button>
+          <button onClick={() => this.props.changeVideo()}>Change video</button>
         </p>
         <YouTube
-          videoId={this.state.videoId}
+          videoId={this.props.videoId}
           opts={opts}
-          onReady={this._onReady}
+          onReady={this.onReady}
+          onStateChange={this.onStateChange}
         />
       </div>
     );

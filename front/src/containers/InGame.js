@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-//import {  } from '../actions'
+import { socket_change_video } from '../actions'
 import { browserHistory } from 'react-router'
 
 // Components
@@ -15,23 +15,28 @@ class InGame extends Component {
     }
   }
 
+  changeVideo() {
+      this.props.dispatch(socket_change_video());
+  }
+
   render() {
     return (
       <div>
         <p>
           In Game !
         </p>
-        <YouTubeVideo />
+        <YouTubeVideo changeVideo={() => this.changeVideo()} videoId={this.props.videoId}/>
       </div>
     );
   };
 }
 
 function mapStateToProps(state) {
-  const { user } = state;
+  const { user, video } = state;
 
   return {
-    pseudo: user.pseudo
+    pseudo: user.pseudo,
+    videoId: video.id
   }
 }
 
