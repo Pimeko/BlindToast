@@ -1,0 +1,5 @@
+Reducer App qui gere les etats de l'app
+-> une clé "isConnected" (bool)
+- au ComponentDidMount, dispatch connect
+- l'action AppAction.js fais io.connect et dans socket.on('connected'), return le fait d'etre connecté (true) avec un objet de type "type: SetConnected, true"
+- dans le reducer AppReducer.js, ca listen tous les type et update le ReduxState de connected à la valeur
