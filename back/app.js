@@ -1,5 +1,6 @@
 var http = require('http');
 var fs = require('fs');
+const crypto = require("crypto");
 
 /*
 // Remove comment to use index.html front
@@ -20,6 +21,7 @@ var path = require('path');
 
 // 10 musiques de 15 secondes avec 5 secondes de break
 var clients = [];
+var clientsToSend = [];
 var videoList = [
   {'id' : "YhtUfOnGJ3E", 'artist' : 'Timber Timbre', 'title' : 'Trouble comes knocking'},
   {'id' : "Rk7B-E4oIWA", 'artist' : 'Timber Timbre', 'title' : 'Lay down in the tall grass'},
@@ -51,13 +53,11 @@ io.sockets.on('connection', function (socket) {
       socket.emit("login_failed", "Pseudo already taken !");
     }
     else {
-      socket.emit("login_success", {pseudo: pseudo});
-      console.log('New login : ' + pseudo);
 
-      connect(socket, pseudo);
+      login(socket, pseudo);
 
       socket.on('disconnect', function() {
-        disconnect(pseudo)
+        disconnect(socket, pseudo)
       });
 
       socket.on('answer', function(val) {
@@ -71,14 +71,25 @@ io.sockets.on('connection', function (socket) {
   });
 });
 
-function connect(socket, pseudo) {
-  clients.push({
-    'socket' : socket,
-    'pseudo' : pseudo,
-    'titlesFound' : [],
-    'artistsFound' : []
-  });
-  socket.emit('connection_success');
+function login(socket, pseudo) {
+  var newClient = {
+    'id'            : crypto.randomBytes(16).toString("hex"),
+    'socket'        : socket,
+    'pseudo'        : pseudo,
+    'titlesFound'   : [],
+    'artistsFound'  : []
+  };
+
+  clients.push(newClient);
+  var clientToSend = {
+    'id' : newClient.id,
+    'pseudo' : newClient.pseudo
+  };
+  clientsToSend.push(clientToSend);
+  socket.emit("login_success", clientToSend);
+  console.log('New login : ', clientToSend);
+
+  updateAllUsers(socket);
 }
 
 function disconnect(pseudo) {
@@ -89,6 +100,20 @@ function disconnect(pseudo) {
     if (client.pseudo === pseudo) { clients.splice(i, 1); }
     i++;
   }
+
+  i = 0;
+  for (var client of clientsToSend) {
+    if (clientsToSend.pseudo === pseudo) { clientsToSend.splice(i, 1); }
+    i++;
+  }
+
+  updateAllUsers(socket);
+}
+
+// Give the new list of users for each users connected to the socket
+function updateAllUsers(socket) {
+  socket.emit("update_all_users", clientsToSend);
+  socket.broadcast.emit("update_all_users", clientsToSend);
 }
 
 function changeVideoIndex() {

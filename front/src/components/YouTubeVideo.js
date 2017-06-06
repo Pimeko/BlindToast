@@ -3,21 +3,19 @@ import YouTube from 'react-youtube';
 
 export default class YouTubeVideo extends Component {
   onReady(event) {
-    event.target.unMute();
+    event.target.mute();
     event.target.playVideo();
   }
 
   onStateChange(event) {
-    event.target.unMute();
+    event.target.mute();
     event.target.playVideo();
   }
 
   render() {
     const opts = {
       width: 600,
-      height: 400,
-      start: 60,
-      end: 80
+      height: 400
     };
 
     return (

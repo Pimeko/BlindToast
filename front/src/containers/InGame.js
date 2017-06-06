@@ -10,7 +10,7 @@ class InGame extends Component {
 
   // Checks if the user is connected, redirects to / if not
   componentWillMount() {
-    if (this.props.pseudo === '') {
+    if (this.props.userId === '') {
       browserHistory.push('/');
     }
   }
@@ -23,7 +23,7 @@ class InGame extends Component {
     return (
       <div>
         <p>
-          In Game !
+          In Game, connected with : {this.props.authUser.pseudo}
         </p>
         <YouTubeVideo changeVideo={() => this.changeVideo()} videoId={this.props.videoId}/>
       </div>
@@ -32,11 +32,11 @@ class InGame extends Component {
 }
 
 function mapStateToProps(state) {
-  const { user, video } = state;
+  const { entities, auth } = state;
 
   return {
-    pseudo: user.pseudo,
-    videoId: video.id
+    userId: auth.userId,
+    authUser: entities.users[auth.userId],
   }
 }
 

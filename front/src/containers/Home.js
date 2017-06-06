@@ -28,10 +28,10 @@ class Home extends Component {
 }
 
 function mapStateToProps(state) {
-  const { user } = state;
+  const { auth } = state;
 
   return {
-    pseudo: user.pseudo
+    authId: auth.userId
   }
 }
 

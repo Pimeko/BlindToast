@@ -20,9 +20,9 @@ export const socket_change_video = () => ({
 })
 
 // App
-export const login = (pseudo) => ({
+export const login = (user) => ({
   type: types.LOGIN,
-  pseudo: pseudo
+  response: user
 })
 
 export const change_video = (video) => ({

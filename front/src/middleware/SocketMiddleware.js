@@ -1,12 +1,17 @@
 import * as types from '../types';
 import { login, change_video } from '../actions'
 import { browserHistory } from 'react-router'
+import { normalize, schema } from 'normalizr';
+
+const Schemas = {
+  user: new schema.Entity('users', {idAttribute: 'id'})
+};
 
 var io = require('socket.io-client');
 
 const socketMiddleware = (function(){
   var socket = null;
-  var serverUrl = 'http://localhost:8080/';
+  var serverUrl = '192.168.141.131:8080/';
 
   return store => next => action => {
     switch(action.type) {
@@ -18,20 +23,28 @@ const socketMiddleware = (function(){
           console.log('[SERV] ' + message);
         });
 
-        socket.on('login_success', (obj) => {
+        socket.on('login_success', (user) => {
+
+          const normalizedUser = normalize(user, Schemas.user);
+          console.log("NORMALIZED : ", normalizedUser);
+
           console.log("Login success !");
-          store.dispatch(login(obj.pseudo));
+          store.dispatch(login(normalizedUser));
           browserHistory.push('/ingame');
 
           socket.on('change_video', (video) => {
             console.log("Playing " + video.title + " by " + video.artist);
             store.dispatch(change_video(video));
           })
+
+          socket.on('update_all_users', (users) => {
+            console.log("Update all users", users)
+          })
         });
 
-        socket.on('login_failed', (message) => {
-          console.log("Login failed : " + message)
-        });
+      socket.on('login_failed', (message) => {
+        console.log("Login failed : " + message)
+      });
       break;
 
       case types.SOCKET_EMIT:

@@ -1,8 +1,8 @@
 import * as types from '../types';
 
-export default function user (
+export default function auth (
   state = {
-    pseudo: ''
+    userId: ''
   },
   action
 ) {
@@ -10,7 +10,7 @@ export default function user (
     case types.LOGIN:
       return {
         ...state,
-        pseudo: action.pseudo
+        userId: action.response.result
       };
     default:
       return state;
