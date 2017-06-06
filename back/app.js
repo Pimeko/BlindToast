@@ -92,7 +92,7 @@ function login(socket, pseudo) {
   updateAllUsers(socket);
 }
 
-function disconnect(pseudo) {
+function disconnect(socket, pseudo) {
   console.log(pseudo + " disconnected !");
 
   var i = 0;

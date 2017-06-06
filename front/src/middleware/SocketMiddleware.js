@@ -11,7 +11,7 @@ var io = require('socket.io-client');
 
 const socketMiddleware = (function(){
   var socket = null;
-  var serverUrl = '192.168.141.131:8080/';
+  var serverUrl = 'http://localhost:8080/';
 
   return store => next => action => {
     switch(action.type) {

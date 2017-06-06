@@ -19,7 +19,7 @@ class Home extends Component {
     return (
       <div>
         <p>
-          Welcome to blind toast ! Pseudo : {this.props.pseudo}
+          Welcome to blind toast !
         </p>
         <Login login={(pseudo) => this.login(pseudo)}/>
       </div>

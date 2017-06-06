@@ -32,11 +32,12 @@ class InGame extends Component {
 }
 
 function mapStateToProps(state) {
-  const { entities, auth } = state;
+  const { entities, auth, video } = state;
 
   return {
     userId: auth.userId,
     authUser: entities.users[auth.userId],
+    videoId: video.id
   }
 }
 
