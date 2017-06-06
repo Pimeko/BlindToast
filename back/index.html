@@ -10,7 +10,7 @@
 
     <p>
       <input type="text" id="pseudo" placeholder="Enter Pseudo"/>
-      <input type="button" value="Sign Up" id="signup" onclick="signup(this)"/>
+      <input type="button" value="Login" id="login" onclick="login(this)"/>
     </p>
     <p>
       <input type="text" id="answerText" placeholder="Your answer here"/>
@@ -49,8 +49,8 @@
       });
 
       // Emitters
-      function signup(e) {
-        socket.emit("signup",
+      function login(e) {
+        socket.emit("login",
         {
           'pseudo': pseudo.value
         });

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { increment, change_maximilien, connect_to_socket, socket_emmit } from '../actions'
+import { increment, change_maximilien, socket_connect, socket_emmit } from '../actions'
 import TestIncrementor from '../components/TestIncrementor'
 import Maximilien from '../components/Maximilien'
 import SocketConnection from '../components/SocketConnection'
@@ -15,7 +15,7 @@ class Test extends Component {
   }
 
   connect_to_socket() {
-    this.props.dispatch(connect_to_socket());
+    this.props.dispatch(socket_connect());
   }
 
   socket_emmit(message) {

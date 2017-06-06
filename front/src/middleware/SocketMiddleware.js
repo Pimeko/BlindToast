@@ -8,19 +8,31 @@ const socketMiddleware = (function(){
 
   return store => next => action => {
     switch(action.type) {
-        case types.SOCKET_CONNECT:
-          console.log("connecting to socket")
-          socket = io.connect(serverUrl);
+      case types.SOCKET_CONNECT:
+        console.log("connecting to socket")
+        socket = io.connect(serverUrl);
 
-          socket.on('message', function(message) {
-            console.log('[SERV] ' + message);
-          });
-        break;
+        socket.on('message', function(message) {
+          console.log('[SERV] ' + message);
+        });
+      break;
 
-        case types.SOCKET_EMMIT:
-          console.log("emitting message")
+      case types.SOCKET_EMMIT:
+        if (socket != null) {
+          console.log("emitting message");
           socket.emit("message", action.message);
-        break;
+        }
+      break;
+
+      case types.SOCKET_LOGIN:
+        if (socket != null) {
+          console.log("login with " + action.pseudo);
+
+          socket.emit("login", {
+            'pseudo': action.pseudo
+          });
+        }
+      break;
 
       default:
         return next(action);

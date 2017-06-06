@@ -9,11 +9,16 @@ export const change_maximilien = (new_value) => ({
   new_value
 })
 
-export function connect_to_socket() {
+export function socket_connect() {
   return { type: types.SOCKET_CONNECT };
 }
 
 export const socket_emmit = (message) => ({
   type: types.SOCKET_EMMIT,
   message: message
+})
+
+export const socket_login = (pseudo) => ({
+  type: types.SOCKET_LOGIN,
+  pseudo: pseudo
 })

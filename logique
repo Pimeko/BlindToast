@@ -1,0 +1,10 @@
+- l'utilisateur se connecte avec un pseudo
+- quand l'utilisateur est connecté, il change de container
+- quand il recoit une musique, il la met à jour dans le component youtube
+- quand il envoie un titre depuis le component textbox, il reçoit une réponse et met à jour son state redux sur les données trouvées
+- s'il a les deux trouvées, les icônés sont affichées en couleur
+
+le state redux contient : {
+  pseudo,
+  video_id
+}

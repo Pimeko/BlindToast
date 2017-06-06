@@ -1,5 +1,6 @@
 import React from 'react'
 import { Route } from 'react-router'
-import Test from './containers/Test'
+import Home from './containers/Home'
+//import Test from './containers/Test'
 
-export default <Route path="/" component={Test}></Route>
+export default <Route path="/" component={Home}></Route>
