@@ -1,19 +1,18 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { socket_emmit } from '../actions'
+//import {  } from '../actions'
 import { browserHistory } from 'react-router'
 
+// Components
+import YouTubeVideo from '../components/YouTubeVideo'
+
 class InGame extends Component {
-  
-  // Checks if the user is indeed connected, or redirects to /
+
+  // Checks if the user is connected, redirects to / if not
   componentWillMount() {
     if (this.props.pseudo === '') {
       browserHistory.push('/');
     }
-  }
-
-  socket_emmit(message) {
-    this.props.dispatch(socket_emmit(message));
   }
 
   render() {
@@ -22,6 +21,7 @@ class InGame extends Component {
         <p>
           In Game !
         </p>
+        <YouTubeVideo />
       </div>
     );
   };
