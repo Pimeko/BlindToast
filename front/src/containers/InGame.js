@@ -5,7 +5,7 @@ import { socket_answer } from '../actions'
 
 // Components
 import YouTubeVideo from '../components/YouTubeVideo'
-//import Users from '../components/Users'
+import Users from '../components/Users'
 import AnswerBox from '../components/AnswerBox'
 
 class InGame extends Component {
@@ -44,6 +44,9 @@ class InGame extends Component {
         <div>
           {this.props.video.playing && !this.props.video.waitForTheEnd ?
             <AnswerBox sendAnswer={(val) => this.sendAnswer(val)}/> : null}
+        </div>
+        <div>
+          <Users users={this.props.users}/>
         </div>
       </div>
     );

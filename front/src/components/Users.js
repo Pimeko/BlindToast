@@ -3,7 +3,30 @@ import React, { Component } from 'react';
 export default class Users extends Component {
   constructor(props) {
     super(props);
-    console.log("props user : ", props.users)
+
+    var list = props.users;
+    var newList = [];
+
+    for (const key of Object.keys(list)) {
+      const currObj = list[key];
+      newList.push(currObj);
+    }
+    this.state = {
+      list: newList
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    var list = nextProps.users;
+    var newList = [];
+
+    for (const key of Object.keys(list)) {
+      const currObj = list[key];
+      newList.push(currObj);
+    }
+    this.setState({
+      list: newList
+    });
   }
 
   render() {
@@ -11,7 +34,11 @@ export default class Users extends Component {
       <div>
         User list :
         <ul>
-          <li>{this.props.users}</li>
+          {
+            this.state.list.map(function(obj){
+              return <li>{obj.pseudo} ({obj.points} points)</li>;
+            })
+          }
         </ul>
       </div>
     );
