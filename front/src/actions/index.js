@@ -20,7 +20,12 @@ export const socket_answer = (val) => ({
   val
 })
 
+
 // App
+export const reset_playlist = () => ({
+  type: types.RESET_PLAYLIST
+})
+
 export const login = (user) => ({
   type: types.LOGIN,
   response: user
@@ -35,8 +40,9 @@ export const wait_for_the_end = () => ({
   type: types.WAIT_FOR_THE_END
 })
 
-export const end_video = () => ({
-  type: types.END_VIDEO
+export const end_video = (currVideo) => ({
+  type: types.END_VIDEO,
+  currVideo
 })
 
 export const update_round = (round) => ({
@@ -52,4 +58,10 @@ export const answer = (result) => ({
 export const update_user = (user) => ({
   type: types.UPDATE_USER,
   response: user
+})
+
+
+export const remove_user = (userId) => ({
+  type: types.REMOVE_USER,
+  userId
 })

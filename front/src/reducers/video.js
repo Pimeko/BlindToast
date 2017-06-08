@@ -4,7 +4,8 @@ export default function video (
   state = {
     id: '2g811Eo7K8U',
     playing: true,
-    waitForTheEnd: false
+    waitForTheEnd: false,
+    playlist: []
   },
   action
 ) {
@@ -20,12 +21,21 @@ export default function video (
       return {
         ...state,
         playing: false,
-        waitForTheEnd: false
+        waitForTheEnd: false,
+        playlist: [
+          action.currVideo,
+          ...state.playlist
+        ]
       };
     case types.WAIT_FOR_THE_END:
       return {
         ...state,
         waitForTheEnd: true
+      };
+    case types.RESET_PLAYLIST:
+      return {
+        ...state,
+        playlist: []
       };
     default:
       return state;

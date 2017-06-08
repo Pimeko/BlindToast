@@ -7,7 +7,6 @@ export default class Login extends Component {
       inputValue: ''
     }
     this.updateInputValue = this.updateInputValue.bind(this);
-    this.login = this.login.bind(this);
   }
 
   updateInputValue (event) {
@@ -29,8 +28,9 @@ export default class Login extends Component {
   render() {
     return (
       <div>
-        <input value={this.state.inputValue} onChange={this.updateInputValue} onKeyPress={(event) => this.handleEnterInput(event, this)}/>
-        <button onClick={() => this.login}>Login</button>
+        <input value={this.state.inputValue} onChange={this.updateInputValue}
+          onKeyPress={(event) => this.handleEnterInput(event, this)}/>
+        <button onClick={() => this.login()}>Login</button>
       </div>
     );
   }

@@ -19,6 +19,14 @@ export default function users (
           ]
         }
       }
+    case types.REMOVE_USER:
+      var index = state.values.indexOf(action.userId);
+      return {
+        values: [
+          ...state.values.slice(0, index),
+          ...state.values.slice(index + 1) 
+        ]
+      }
     default:
       return state;
   }

@@ -32,9 +32,9 @@ var currVideo = {};
 var titlesList = [];
 var artistsList = [];
 var musicPlaying = false;
-var nbMusicsPlayed = -1;
-var nbMusicsPerRound = 6;
-var musicTime = 10, pauseTime = 5;
+var nbMusicsPlayed = 0;
+var nbMusicsPerRound = 10;
+var musicTime = 10, pauseTime = 10;
 
 io.sockets.on('connection', function (socket) {
   socket.on("message", function (message) {
@@ -131,6 +131,7 @@ function login(socket, pseudo) {
 
 function disconnect(socket, pseudo) {
   console.log(pseudo + " disconnected !");
+  var userId = getClientByPseudo(pseudo).id;
 
   var i = 0;
   for (var client of clients) {
@@ -144,7 +145,8 @@ function disconnect(socket, pseudo) {
     i++;
   }
 
-  updateAllUsers(socket);
+  //updateAllUsers(socket);
+  socket.broadcast.emit("remove_user", userId);
 }
 
 // Give the new list of users for each users connected to the socket
@@ -277,7 +279,7 @@ function changeVideo() {
   if (endOfRound) {
     console.log("End of round !");
     restartGame();
-    nbMusicsPlayed = 0;
+    nbMusicsPlayed = 1;
   }
   else {
     nbMusicsPlayed++;
@@ -300,6 +302,7 @@ function restartGame() {
 
     updateClientToSendLocal(currClientToSend);
     updateAllUsers(client.socket);
+    client.socket.emit('reset_playlist');
   }
 }
 
@@ -335,7 +338,7 @@ function emitEndMusic() {
     currClientToSend.foundArtist = false;
 
     client.socket.emit("message", "End video");
-    client.socket.emit('end_video');
+    client.socket.emit('end_video', currVideo);
     updateClientToSendLocal(currClientToSend);
     updateAllUsers(client.socket);
   }

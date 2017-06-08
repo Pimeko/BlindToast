@@ -1,7 +1,8 @@
 import * as types from '../types';
 import {
   login, change_video, end_video, wait_for_the_end,
-  answer, update_user, update_round
+  answer, update_user, update_round, remove_user,
+  reset_playlist
 } from '../actions'
 
 import { browserHistory } from 'react-router'
@@ -36,9 +37,9 @@ const socketMiddleware = (function(){
             store.dispatch(change_video(video));
           })
 
-          socket.on('end_video', () => {
+          socket.on('end_video', (currVideo) => {
             console.log("Ending video ");
-            store.dispatch(end_video());
+            store.dispatch(end_video(currVideo));
           })
 
           socket.on('wait_for_the_end', () => {
@@ -59,8 +60,17 @@ const socketMiddleware = (function(){
             }
           })
 
+          socket.on('remove_user', (userId) => {
+            console.log("Removing user by id ", userId);
+            store.dispatch(remove_user(userId));
+          })
+
           socket.on('answer', (result) => {
             store.dispatch(answer(result));
+          })
+
+          socket.on('reset_playlist', () => {
+            store.dispatch(reset_playlist());
           })
         });
 

@@ -7,6 +7,7 @@ import { socket_answer } from '../actions'
 import YouTubeVideo from '../components/YouTubeVideo'
 import Users from '../components/Users'
 import AnswerBox from '../components/AnswerBox'
+import Playlist from '../components/Playlist'
 
 class InGame extends Component {
 
@@ -48,8 +49,10 @@ class InGame extends Component {
           )}
         </div>
         <div>
-
           <Users users={this.props.users}/>
+        </div>
+        <div>
+          <Playlist playlist={this.props.video.playlist}/>
         </div>
       </div>
     );
