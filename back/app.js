@@ -27,14 +27,16 @@ var videoList = [
   {'id' : "Rk7B-E4oIWA", 'artist' : 'Timber Timbre', 'title' : 'Lay down in the tall grass'},
   {'id' : "2R-Ikfyh-6Q", 'artist' : 'Timber Timbre', 'title' : 'Lonesome Hunter'},
   {'id' : "cBU8reYYE10", 'artist' : 'Timber Timbre', 'title' : 'We\'ll Find Out'}];
+var videosPlayed = [];
+
 var videoIndex = 0;
 var currVideo = {};
 var titlesList = [];
 var artistsList = [];
 var musicPlaying = false;
 var nbMusicsPlayed = 0;
-var nbMusicsPerRound = 10;
-var musicTime = 10, pauseTime = 10;
+var nbMusicsPerRound = 2;
+var musicTime = 2, pauseTime = 2;
 
 io.sockets.on('connection', function (socket) {
   socket.on("message", function (message) {
@@ -155,11 +157,17 @@ function updateAllUsers(socket) {
   socket.broadcast.emit("update_all_users", clientsToSend);
 }
 
+// min inclusive, max inclusive
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 function changeVideoIndex() {
-  videoIndex++;
-  if (videoIndex >= videoList.length) {
-    videoIndex = 0;
-  }
+  do {
+    videoIndex = getRandomInt(0, videoList.length - 1);
+  } while (videoIndex in videosPlayed);
+
+  videosPlayed.push(videoIndex);
 }
 
 function splitAndLower(array) {
@@ -291,6 +299,7 @@ function changeVideo() {
 }
 
 function restartGame() {
+  videosPlayed = [];
   for (var client of clients) {
     console.log(client.pseudo);
 
