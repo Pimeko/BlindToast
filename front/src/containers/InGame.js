@@ -37,15 +37,18 @@ class InGame extends Component {
           Current round : {this.props.round.currentRound} <br/>
           Nb rounds : {this.props.round.nbRounds}
         </p>
-        <div>
-          {this.props.video.playing && !this.props.video.waitForTheEnd?
-            <YouTubeVideo video={this.props.video} /> : null}
+        <div style={{display: 'none'}}>
+          {this.props.video.playing && !this.props.video.waitForTheEnd && (
+            <YouTubeVideo video={this.props.video} />
+          )}
         </div>
         <div>
-          {this.props.video.playing && !this.props.video.waitForTheEnd ?
-            <AnswerBox sendAnswer={(val) => this.sendAnswer(val)}/> : null}
+          {this.props.video.playing && !this.props.video.waitForTheEnd && (
+            <AnswerBox sendAnswer={(val) => this.sendAnswer(val)}/>
+          )}
         </div>
         <div>
+
           <Users users={this.props.users}/>
         </div>
       </div>
@@ -54,11 +57,14 @@ class InGame extends Component {
 }
 
 function mapStateToProps(state) {
-  const { entities, auth, video, round } = state;
+  const { entities, auth, video, round, users } = state;
+  const usersList = users.values.map((id) => entities.users[id]).sort(function(a, b) {
+    return b.points - a.points;
+  });
 
   return {
     authUser: entities.users[auth.userId],
-    users: entities.users,
+    users: usersList,
     video: video,
     round: round
   }

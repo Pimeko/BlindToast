@@ -33,7 +33,7 @@ var titlesList = [];
 var artistsList = [];
 var musicPlaying = false;
 var nbMusicsPlayed = -1;
-var nbMusicsPerRound = 2;
+var nbMusicsPerRound = 6;
 var musicTime = 10, pauseTime = 5;
 
 io.sockets.on('connection', function (socket) {
@@ -81,6 +81,19 @@ function updateClientToSendLocal(newClient) {
         client.pseudo = newClient.pseudo;
         client.foundTitle = newClient.foundTitle;
         client.foundArtist = newClient.foundArtist;
+      }
+      i++;
+    }
+}
+
+
+function updateClientLocal(newClient) {
+    i = 0;
+    for (var client of clients) {
+      if (client.id === newClient.id) {
+        client.pseudo = newClient.pseudo;
+        client.titlesList = newClient.titlesList;
+        client.artistsList = newClient.artistsList;
       }
       i++;
     }
@@ -170,6 +183,7 @@ function emitNewVideo() {
   titlesList = splitAndLower(currVideo.title);
   artistsList = splitAndLower(currVideo.artist);
 
+  console.log("New music : " + currVideo.title + " by " + currVideo.artist)
   for (var client of clients) {
     console.log(client.pseudo);
 
@@ -228,9 +242,15 @@ function onAnswer(socket, val, pseudo) {
     }
   }
 
+  updateClientLocal(currClient);
+
   var currClientToSend = getClientToSendByPseudo(pseudo);
-  currClientToSend.foundTitle = !hadTitle && currClient.titlesFound.length === titlesList.length;
-  currClientToSend.foundArtist = !hadArtist && currClient.artistsFound.length === artistsList.length;
+  if (!hadTitle) {
+    currClientToSend.foundTitle = currClient.titlesFound.length === titlesList.length;
+  }
+  if (!hadArtist) {
+    currClientToSend.foundArtist = currClient.artistsFound.length === artistsList.length;
+  }
 
   socket.emit("message", "Found at least one : " + foundAtLeastOne);
 
@@ -305,6 +325,11 @@ function emitEndMusic() {
     console.log(client.pseudo);
 
     // Reset client
+    var currClient = getClientByPseudo(client.pseudo);
+    currClient.artistsFound = [];
+    currClient.titlesFound = [];
+    updateClientLocal(currClient);
+
     var currClientToSend = getClientToSendByPseudo(client.pseudo);
     currClientToSend.foundTitle = false;
     currClientToSend.foundArtist = false;
