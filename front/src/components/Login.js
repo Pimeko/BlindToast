@@ -7,6 +7,7 @@ export default class Login extends Component {
       inputValue: ''
     }
     this.updateInputValue = this.updateInputValue.bind(this);
+    this.login = this.login.bind(this);
   }
 
   updateInputValue (event) {
@@ -15,11 +16,21 @@ export default class Login extends Component {
     });
   }
 
+  login() {
+      this.props.login(this.state.inputValue);
+  }
+
+  handleEnterInput(event, _this) {
+    if (event.key === 'Enter') {
+      _this.login();
+    }
+  }
+
   render() {
     return (
       <div>
-        <input value={this.state.inputValue} onChange={this.updateInputValue}/>
-        <button onClick={() => this.props.login(this.state.inputValue)} >Login</button>
+        <input value={this.state.inputValue} onChange={this.updateInputValue} onKeyPress={(event) => this.handleEnterInput(event, this)}/>
+        <button onClick={() => this.login}>Login</button>
       </div>
     );
   }
