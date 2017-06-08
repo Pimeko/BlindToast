@@ -103,6 +103,9 @@ function login(socket, pseudo) {
 
   socket.emit("login_success", clientToSend);
   console.log('New login : ', clientToSend);
+  if (musicPlaying) {
+    socket.emit('wait_for_the_end');
+  }
 
   updateAllUsers(socket);
 }
@@ -226,18 +229,30 @@ function onAnswer(socket, val, pseudo) {
   }
 }
 
-// Emit every n seconds
-setInterval(function() {
+function changeVideo() {
+  console.log();
+  console.log("------------");
+  console.log("Updating " + ((clients.length === 0) ? "(empty)" : ""));
+
   musicPlaying = true;
+  emitNewVideo();
+  changeVideoIndex();
+}
+
+function loopMusic() {
   changeVideo();
   setTimeout(function() {
-    musicPlaying = false;
     endMusic();
-  }, 5 * 1000);
-}, 8 * 1000);
+  }, 12 * 1000);
+}
+
+// Emit every n seconds
+loopMusic();
+setInterval(loopMusic, 15 * 1000);
 
 function endMusic() {
   console.log("ending music");
+  musicPlaying = false;
   emitEndMusic();
 }
 
@@ -257,14 +272,6 @@ function emitEndMusic() {
   }
 }
 
-function changeVideo() {
-  console.log();
-  console.log("------------");
-  console.log("Updating " + ((clients.length === 0) ? "(empty)" : ""));
-
-  emitNewVideo();
-  changeVideoIndex();
-}
 
 console.log("Server started on port 8080 :)");
 server.listen(8080);

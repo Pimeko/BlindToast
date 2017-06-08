@@ -35,6 +35,10 @@ export const change_video = (video) => ({
   video: video
 })
 
+export const wait_for_the_end = () => ({
+  type: types.WAIT_FOR_THE_END
+})
+
 export const end_video = () => ({
   type: types.END_VIDEO
 })

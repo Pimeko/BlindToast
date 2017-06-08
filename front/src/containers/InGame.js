@@ -32,13 +32,16 @@ class InGame extends Component {
           In Game, connected with : {this.props.authUser.pseudo} <br/>
           Found artist : {this.props.authUser.foundArtist.toString()} <br/>
           Found title : {this.props.authUser.foundTitle.toString()} <br/>
+          Wait for the end : {this.props.video.waitForTheEnd.toString()}
         </p>
         <div>
-          <YouTubeVideo changeVideo={() => this.changeVideo()} video={this.props.video} />
+          {this.props.video.playing && !this.props.video.waitForTheEnd?
+            <YouTubeVideo changeVideo={() => this.changeVideo()} video={this.props.video} /> : null}
           Playing : {this.props.video.playing.toString()}
         </div>
         <div>
-          <AnswerBox sendAnswer={(val) => this.sendAnswer(val)}/>
+          {this.props.video.playing && !this.props.video.waitForTheEnd ?
+            <AnswerBox sendAnswer={(val) => this.sendAnswer(val)}/> : null}
         </div>
       </div>
     );

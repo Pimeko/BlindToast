@@ -3,7 +3,8 @@ import * as types from '../types';
 export default function video (
   state = {
     id: '2g811Eo7K8U',
-    playing: true
+    playing: true,
+    waitForTheEnd: false
   },
   action
 ) {
@@ -12,12 +13,19 @@ export default function video (
       return {
         ...state,
         id: action.video.id,
-        playing: true
+        playing: true,
+        waitForTheEnd: false
       };
     case types.END_VIDEO:
       return {
         ...state,
-        playing: false
+        playing: false,
+        waitForTheEnd: false
+      };
+    case types.WAIT_FOR_THE_END:
+      return {
+        ...state,
+        waitForTheEnd: true
       };
     default:
       return state;

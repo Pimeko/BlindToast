@@ -1,5 +1,5 @@
 import * as types from '../types';
-import { login, change_video, end_video, answer, update_user } from '../actions'
+import { login, change_video, end_video, wait_for_the_end, answer, update_user } from '../actions'
 import { browserHistory } from 'react-router'
 import { normalize } from 'normalizr';
 import { schemaUser } from  '../schemas';
@@ -36,6 +36,11 @@ const socketMiddleware = (function(){
           socket.on('end_video', () => {
             console.log("Ending video ");
             store.dispatch(end_video());
+          })
+
+          socket.on('wait_for_the_end', () => {
+            console.log("wait for the end !");
+            store.dispatch(wait_for_the_end());
           })
 
           socket.on('update_all_users', (users) => {
