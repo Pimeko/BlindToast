@@ -20,9 +20,6 @@ export default class YouTubeVideo extends Component {
 
     return (
       <div>
-        <p>
-          <button onClick={() => this.props.changeVideo()}>Change video</button>
-        </p>
         <YouTube
           videoId={this.props.video.id}
           opts={opts}

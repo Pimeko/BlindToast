@@ -32,6 +32,9 @@ var currVideo = {};
 var titlesList = [];
 var artistsList = [];
 var musicPlaying = false;
+var nbMusicsPlayed = -1;
+var nbMusicsPerRound = 2;
+var musicTime = 5, pauseTime = 5;
 
 io.sockets.on('connection', function (socket) {
   socket.on("message", function (message) {
@@ -89,20 +92,23 @@ function login(socket, pseudo) {
     'socket'        : socket,
     'pseudo'        : pseudo,
     'titlesFound'   : [],
-    'artistsFound'  : []
+    'artistsFound'  : [],
+    'points'        : 0
   };
   clients.push(newClient);
 
   var clientToSend = {
-    'id' : newClient.id,
-    'pseudo' : newClient.pseudo,
-    'foundTitle' : false,
-    'foundArtist' : false
+    'id'            : newClient.id,
+    'pseudo'        : newClient.pseudo,
+    'foundTitle'    : false,
+    'foundArtist'   : false,
+    'points'        : newClient.points
   };
   clientsToSend.push(clientToSend);
 
-  socket.emit("login_success", clientToSend);
   console.log('New login : ', clientToSend);
+  socket.emit("login_success", clientToSend);
+  updateRound(socket);
   if (musicPlaying) {
     socket.emit('wait_for_the_end');
   }
@@ -150,6 +156,15 @@ function splitAndLower(array) {
   return res;
 }
 
+function updateRound(socket) {
+  var objToSend = {
+    'currentRound' : nbMusicsPlayed,
+    'nbRounds' : nbMusicsPerRound
+  };
+  console.log("new round", objToSend);
+  socket.emit('update_round', objToSend);
+}
+
 function emitNewVideo() {
   currVideo = videoList[videoIndex];
   titlesList = splitAndLower(currVideo.title);
@@ -160,6 +175,7 @@ function emitNewVideo() {
 
     client.socket.emit("message", "Change video to " + currVideo.title);
     client.socket.emit('change_video', currVideo);
+    updateRound(client.socket);
   }
 }
 
@@ -215,40 +231,68 @@ function onAnswer(socket, val, pseudo) {
   var currClientToSend = getClientToSendByPseudo(pseudo);
   currClientToSend.foundTitle = !hadTitle && currClient.titlesFound.length === titlesList.length;
   currClientToSend.foundArtist = !hadArtist && currClient.artistsFound.length === artistsList.length;
-  updateClientToSendLocal(currClientToSend);
-  updateAllUsers(socket);
 
   socket.emit("message", "Found at least one : " + foundAtLeastOne);
 
   if (!hadTitle && currClient.titlesFound.length === titlesList.length) {
+    currClientToSend.points++;
     socket.emit("message", "Found title !");
   }
 
   if (!hadArtist && currClient.artistsFound.length === artistsList.length) {
+    currClientToSend.points++;
     socket.emit("message", "Found artist !");
   }
+
+  updateClientToSendLocal(currClientToSend);
+  updateAllUsers(socket);
 }
 
 function changeVideo() {
   console.log();
   console.log("------------");
-  console.log("Updating " + ((clients.length === 0) ? "(empty)" : ""));
+  console.log("Updating " + ((clients.length === 0) ? "(no users)" : ""));
+
+  var endOfRound = nbMusicsPlayed === nbMusicsPerRound;
+  if (endOfRound) {
+    console.log("End of round !");
+    restartGame();
+    nbMusicsPlayed = 0;
+  }
+  else {
+    nbMusicsPlayed++;
+  }
 
   musicPlaying = true;
   emitNewVideo();
   changeVideoIndex();
 }
 
+function restartGame() {
+  for (var client of clients) {
+    console.log(client.pseudo);
+
+    // Reset client
+    var currClientToSend = getClientToSendByPseudo(client.pseudo);
+    currClientToSend.foundTitle = false;
+    currClientToSend.foundArtist = false;
+    currClientToSend.points = 0;
+
+    updateClientToSendLocal(currClientToSend);
+    updateAllUsers(client.socket);
+  }
+}
+
 function loopMusic() {
   changeVideo();
   setTimeout(function() {
     endMusic();
-  }, 12 * 1000);
+  }, musicTime * 1000);
 }
 
 // Emit every n seconds
 loopMusic();
-setInterval(loopMusic, 15 * 1000);
+setInterval(loopMusic, (musicTime + pauseTime) * 1000);
 
 function endMusic() {
   console.log("ending music");
@@ -264,14 +308,13 @@ function emitEndMusic() {
     var currClientToSend = getClientToSendByPseudo(client.pseudo);
     currClientToSend.foundTitle = false;
     currClientToSend.foundArtist = false;
-    updateClientToSendLocal(currClientToSend);
-    updateAllUsers(client.socket);
 
     client.socket.emit("message", "End video");
     client.socket.emit('end_video');
+    updateClientToSendLocal(currClientToSend);
+    updateAllUsers(client.socket);
   }
 }
-
 
 console.log("Server started on port 8080 :)");
 server.listen(8080);

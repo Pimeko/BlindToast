@@ -1,5 +1,9 @@
 import * as types from '../types';
-import { login, change_video, end_video, wait_for_the_end, answer, update_user } from '../actions'
+import {
+  login, change_video, end_video, wait_for_the_end,
+  answer, update_user, update_round
+} from '../actions'
+
 import { browserHistory } from 'react-router'
 import { normalize } from 'normalizr';
 import { schemaUser } from  '../schemas';
@@ -22,7 +26,6 @@ const socketMiddleware = (function(){
 
         socket.on('login_success', (user) => {
           const normalizedUser = normalize(user, schemaUser);
-          console.log("NORMALIZED : ", normalizedUser);
 
           console.log("Login success !");
           store.dispatch(login(normalizedUser));
@@ -43,17 +46,17 @@ const socketMiddleware = (function(){
             store.dispatch(wait_for_the_end());
           })
 
+          socket.on('update_round', (round) => {
+            console.log("update round");
+            store.dispatch(update_round(round));
+          })
+
           socket.on('update_all_users', (users) => {
             console.log("Update all users", users)
             for (var user of users) {
-                var normalizedUser = normalize(user, schemaUser);
-                store.dispatch(update_user(normalizedUser));
+              var normalizedUser = normalize(user, schemaUser);
+              store.dispatch(update_user(normalizedUser));
             }
-          })
-
-          socket.on('update_client', (user) => {
-            const normalizedUser = normalize(user, schemaUser);
-            store.dispatch(update_user(normalizedUser));
           })
 
           socket.on('answer', (result) => {
@@ -80,14 +83,6 @@ const socketMiddleware = (function(){
           socket.emit("login", {
             'pseudo': action.pseudo
           });
-        }
-      break;
-
-      case types.SOCKET_CHANGE_VIDEO:
-        if (socket != null) {
-          console.log("[socket] changing video");
-
-          socket.emit("change_video");
         }
       break;
 

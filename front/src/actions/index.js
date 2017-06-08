@@ -15,10 +15,6 @@ export const socket_login = (pseudo) => ({
   pseudo: pseudo
 })
 
-export const socket_change_video = () => ({
-  type: types.SOCKET_CHANGE_VIDEO
-})
-
 export const socket_answer = (val) => ({
   type: types.SOCKET_ANSWER,
   val
@@ -41,6 +37,11 @@ export const wait_for_the_end = () => ({
 
 export const end_video = () => ({
   type: types.END_VIDEO
+})
+
+export const update_round = (round) => ({
+  type: types.UPDATE_ROUND,
+  round
 })
 
 export const answer = (result) => ({
