@@ -31,6 +31,7 @@ var videoIndex = 0;
 var currVideo = {};
 var titlesList = [];
 var artistsList = [];
+var musicPlaying = false;
 
 io.sockets.on('connection', function (socket) {
   socket.on("message", function (message) {
@@ -53,7 +54,6 @@ io.sockets.on('connection', function (socket) {
       socket.emit("login_failed", "Pseudo already taken !");
     }
     else {
-
       login(socket, pseudo);
 
       socket.on('disconnect', function() {
@@ -61,7 +61,7 @@ io.sockets.on('connection', function (socket) {
       });
 
       socket.on('answer', function(val) {
-        answer(socket, val, pseudo)
+        onAnswer(socket, val, pseudo)
       });
 
       socket.on('change_video', function() {
@@ -71,6 +71,18 @@ io.sockets.on('connection', function (socket) {
   });
 });
 
+function updateClientToSendLocal(newClient) {
+    i = 0;
+    for (var client of clientsToSend) {
+      if (client.id === newClient.id) {
+        client.pseudo = newClient.pseudo;
+        client.foundTitle = newClient.foundTitle;
+        client.foundArtist = newClient.foundArtist;
+      }
+      i++;
+    }
+}
+
 function login(socket, pseudo) {
   var newClient = {
     'id'            : crypto.randomBytes(16).toString("hex"),
@@ -79,13 +91,16 @@ function login(socket, pseudo) {
     'titlesFound'   : [],
     'artistsFound'  : []
   };
-
   clients.push(newClient);
+
   var clientToSend = {
     'id' : newClient.id,
-    'pseudo' : newClient.pseudo
+    'pseudo' : newClient.pseudo,
+    'foundTitle' : false,
+    'foundArtist' : false
   };
   clientsToSend.push(clientToSend);
+
   socket.emit("login_success", clientToSend);
   console.log('New login : ', clientToSend);
 
@@ -103,7 +118,7 @@ function disconnect(socket, pseudo) {
 
   i = 0;
   for (var client of clientsToSend) {
-    if (clientsToSend.pseudo === pseudo) { clientsToSend.splice(i, 1); }
+    if (client.pseudo === pseudo) { clientsToSend.splice(i, 1); }
     i++;
   }
 
@@ -139,6 +154,7 @@ function emitNewVideo() {
 
   for (var client of clients) {
     console.log(client.pseudo);
+
     client.socket.emit("message", "Change video to " + currVideo.title);
     client.socket.emit('change_video', currVideo);
   }
@@ -147,6 +163,16 @@ function emitNewVideo() {
 function getClientByPseudo(pseudo) {
     var res = null;
     for (var client of clients) {
+      if (client.pseudo === pseudo) {
+        res = client;
+      }
+    }
+    return res;
+}
+
+function getClientToSendByPseudo(pseudo) {
+    var res = null;
+    for (var client of clientsToSend) {
       if (client.pseudo === pseudo) {
         res = client;
       }
@@ -163,7 +189,8 @@ function keyExists(key, array) {
   return false;
 }
 
-function answer(socket, val, pseudo) {
+function onAnswer(socket, val, pseudo) {
+  console.log("Got answer " + val + " from " + pseudo);
   var currClient = getClientByPseudo(pseudo);
   var answerArray = splitAndLower(val);
   var foundAtLeastOne = false;
@@ -182,6 +209,12 @@ function answer(socket, val, pseudo) {
     }
   }
 
+  var currClientToSend = getClientToSendByPseudo(pseudo);
+  currClientToSend.foundTitle = !hadTitle && currClient.titlesFound.length === titlesList.length;
+  currClientToSend.foundArtist = !hadArtist && currClient.artistsFound.length === artistsList.length;
+  updateClientToSendLocal(currClientToSend);
+  updateAllUsers(socket);
+
   socket.emit("message", "Found at least one : " + foundAtLeastOne);
 
   if (!hadTitle && currClient.titlesFound.length === titlesList.length) {
@@ -193,12 +226,36 @@ function answer(socket, val, pseudo) {
   }
 }
 
-/*
 // Emit every n seconds
-setInterval(function(){
+setInterval(function() {
+  musicPlaying = true;
   changeVideo();
-}, 6 * 1000);
-*/
+  setTimeout(function() {
+    musicPlaying = false;
+    endMusic();
+  }, 5 * 1000);
+}, 8 * 1000);
+
+function endMusic() {
+  console.log("ending music");
+  emitEndMusic();
+}
+
+function emitEndMusic() {
+  for (var client of clients) {
+    console.log(client.pseudo);
+
+    // Reset client
+    var currClientToSend = getClientToSendByPseudo(client.pseudo);
+    currClientToSend.foundTitle = false;
+    currClientToSend.foundArtist = false;
+    updateClientToSendLocal(currClientToSend);
+    updateAllUsers(client.socket);
+
+    client.socket.emit("message", "End video");
+    client.socket.emit('end_video');
+  }
+}
 
 function changeVideo() {
   console.log();

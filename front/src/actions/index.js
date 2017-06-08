@@ -19,6 +19,11 @@ export const socket_change_video = () => ({
   type: types.SOCKET_CHANGE_VIDEO
 })
 
+export const socket_answer = (val) => ({
+  type: types.SOCKET_ANSWER,
+  val
+})
+
 // App
 export const login = (user) => ({
   type: types.LOGIN,
@@ -28,4 +33,18 @@ export const login = (user) => ({
 export const change_video = (video) => ({
   type: types.CHANGE_VIDEO,
   video: video
+})
+
+export const end_video = () => ({
+  type: types.END_VIDEO
+})
+
+export const answer = (result) => ({
+  type: types.ANSWER,
+  result
+})
+
+export const update_user = (user) => ({
+  type: types.UPDATE_USER,
+  response: user
 })
