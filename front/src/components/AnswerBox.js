@@ -7,6 +7,7 @@ export default class AnswerBox extends Component {
       inputValue: ''
     }
     this.updateInputValue = this.updateInputValue.bind(this);
+    this.sendAnswer = this.sendAnswer.bind(this);
   }
 
   updateInputValue (event) {
@@ -15,11 +16,26 @@ export default class AnswerBox extends Component {
     });
   }
 
+  sendAnswer() {
+    this.props.sendAnswer(this.state.inputValue);
+    this.inputAnswer.value = "";
+    this.setState({
+      inputValue: ""
+    });
+  }
+
+  handleEnterInput(event, _this) {
+    if (event.key === 'Enter') {
+      _this.sendAnswer();
+    }
+  }
+
   render() {
     return (
       <div>
-        <input value={this.state.inputValue} onChange={this.updateInputValue} placeholder="Your answer"/>
-        <button onClick={() => this.props.sendAnswer(this.state.inputValue)}>Answer</button>
+        <input value={this.state.inputValue} onChange={this.updateInputValue}
+          onKeyPress={(event) => this.handleEnterInput(event, this)} placeholder="Your answer" ref={(el) => this.inputAnswer = el}/>
+        <button onClick={() => this.sendAnswer()}>Answer</button>
       </div>
     );
   }

@@ -4,7 +4,6 @@ import { socket_connect, socket_login } from '../actions'
 
 // Components
 import Login from '../components/Login'
-import styles from '../styles.scss'
 
 class Home extends Component {
   constructor(props) {
@@ -18,10 +17,8 @@ class Home extends Component {
 
   render() {
     return (
-      <div className={styles.box}>
-        <p>
+      <div className="box">
           Welcome to blind toast !
-        </p>
         <Login login={(pseudo) => this.login(pseudo)}/>
       </div>
     );
