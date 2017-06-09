@@ -4,6 +4,8 @@ import { socket_answer } from '../actions'
 //import { browserHistory } from 'react-router'
 
 // Components
+import Header from '../components/Header'
+import Footer from '../components/Footer'
 import YouTubeVideo from '../components/YouTubeVideo'
 import Users from '../components/Users'
 import AnswerBox from '../components/AnswerBox'
@@ -25,6 +27,17 @@ class InGame extends Component {
   render() {
     return (
       <div>
+        <Header/>
+        <div className="box">
+          <div className="div_found">
+            <img src="artist_full.png" className="icon_artist"/>
+            <img src="title_empty.png" className="icon_title"/>
+          </div>
+          <br/>
+          {this.props.video.playing && !this.props.video.waitForTheEnd && (
+            <AnswerBox sendAnswer={(val) => this.sendAnswer(val)}/>
+          )}
+        </div>
         <p>
           In Game, connected with : {this.props.authUser.pseudo} <br/>
           Found artist : {this.props.authUser.foundArtist.toString()} <br/>
@@ -44,16 +57,12 @@ class InGame extends Component {
           )}
         </div>
         <div>
-          {this.props.video.playing && !this.props.video.waitForTheEnd && (
-            <AnswerBox sendAnswer={(val) => this.sendAnswer(val)}/>
-          )}
-        </div>
-        <div>
           <Users users={this.props.users}/>
         </div>
         <div>
           <Playlist playlist={this.props.video.playlist}/>
         </div>
+        <Footer/>
       </div>
     );
   };

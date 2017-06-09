@@ -6,7 +6,7 @@ export default class Header extends Component {
       <div>
         <header>
           <center>
-            <img src='logo3.png' id="logo" alt="logo"/>
+            <img src='logo3.png' className="logo" alt="logo"/>
           </center>
         </header>
       </div>

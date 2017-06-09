@@ -33,9 +33,21 @@ body {
 input[type=text] {
     width: 60%;
     padding: 12px 20px;
-    margin: 8px 0;
+    margin: 8px 0px 0px 0px;
     box-sizing: border-box;
-    font-size: 20px;
+}
+
+input[type=text]:focus {
+    outline: none;
+}
+
+.input_answer {
+  height: 40px;
+  width: 250px;
+  padding-left: 5px;
+  vertical-align: bottom;
+  border: 0px;
+  border-radius: 3px 0px 0px 3px;
 }
 
 button {
@@ -48,14 +60,39 @@ button {
     margin-top:20px;
 }
 
+.logo {
+  width:50%;
+  height:50%
+}
+
+.ok_button {
+    font-size: 20px;
+    height: 40px;
+    width: 115px;
+    padding:3px 0px 0px 0px;
+    border-radius: 0px 3px 3px 0px;
+}
+
+.div_found {
+  text-align: center;
+}
+
+.icon_artist {
+  width:5.2%;
+  height:5.2%;
+  display: inline-block;
+  margin-right:10px;
+}
+
+.icon_title {
+  width:8%;
+  height:8%;
+  display: inline-block;
+}
+
 header, footer {
   text-align: center;
   color:white;
   padding:10px;
   font-size: 20px;
-}
-
-#logo {
-  width:50%;
-  height:50%
 }
