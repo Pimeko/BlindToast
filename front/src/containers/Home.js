@@ -3,7 +3,9 @@ import { connect } from 'react-redux'
 import { socket_connect, socket_login } from '../actions'
 
 // Components
+import Header from '../components/Header'
 import Login from '../components/Login'
+import Footer from '../components/Footer'
 
 class Home extends Component {
   constructor(props) {
@@ -17,9 +19,13 @@ class Home extends Component {
 
   render() {
     return (
-      <div className="box">
-          Welcome to blind toast !
-        <Login login={(pseudo) => this.login(pseudo)}/>
+      <div>
+        <Header/>
+        <div className="box">
+          <h2>Choisissez votre pseudo :</h2>
+          <Login login={(pseudo) => this.login(pseudo)}/>
+        </div>
+        <Footer/>
       </div>
     );
   };

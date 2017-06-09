@@ -28,9 +28,9 @@ export default class Login extends Component {
   render() {
     return (
       <div>
-        <input value={this.state.inputValue} onChange={this.updateInputValue}
-          onKeyPress={(event) => this.handleEnterInput(event, this)}/>
-        <button onClick={() => this.login()}>Login</button>
+        <input type="text" value={this.state.inputValue} onChange={this.updateInputValue}
+          onKeyPress={(event) => this.handleEnterInput(event, this)} placeholder="Ex: toto"/> <br/>
+        <button onClick={() => this.login()}>JOUER</button>
       </div>
     );
   }

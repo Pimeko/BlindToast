@@ -1,0 +1,60 @@
+@font-face {
+    font-family: mobiloFont-regular;
+    src: url(Mobilo-Regular.ttf);
+}
+@font-face {
+    font-family: mobiloFont-light;
+    src: url(Mobilo-Light.ttf);
+}
+@font-face {
+    font-family: mobiloFont-medium;
+    src: url(Mobilo-Medium.ttf);
+}
+
+body {
+  background-color: #A7DBD8;
+  font-family: mobiloFont-light;
+}
+
+.box {
+  background-color: #F7F7F7;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top:50px;
+  margin-bottom:50px;
+  width: 50%;
+
+  text-align: center;
+  border: solid 3px #9BCCC9;
+  border-radius: 6px;
+  padding:20px;
+}
+
+input[type=text] {
+    width: 60%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    font-size: 20px;
+}
+
+button {
+    background-color: #e0e4cc;
+    color: white;
+    border: 0px;
+    font-size: 40px;
+    font-family: mobiloFont-medium;
+    padding:20px 60px 10px 60px;
+    margin-top:20px;
+}
+
+header, footer {
+  text-align: center;
+  color:white;
+  padding:10px;
+}
+
+#logo {
+  width:50%;
+  height:50%
+}
