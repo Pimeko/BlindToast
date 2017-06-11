@@ -28,7 +28,7 @@ header, footer {
   margin-left: auto;
   margin-right: auto;
   margin-top:50px;
-  margin-bottom:50px;
+  margin-bottom:10px;
   width: 50%;
 
   text-align: center;
@@ -187,4 +187,8 @@ button:active {
   margin: 5px 20px;
   padding: 3px;
   border-radius: 2px;
+}
+
+.round {
+  float:right;
 }
