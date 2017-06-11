@@ -29,7 +29,7 @@ export default class Login extends Component {
     return (
       <div>
         <input type="text" value={this.state.inputValue} onChange={this.updateInputValue}
-          onKeyPress={(event) => this.handleEnterInput(event, this)} placeholder="Ex: toto"/> <br/>
+          onKeyPress={(event) => this.handleEnterInput(event, this)} placeholder="Ex: toto" autoFocus/> <br/>
         <button onClick={() => this.login()}>JOUER</button>
       </div>
     );

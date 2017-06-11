@@ -77,6 +77,11 @@ button {
     margin-top:20px;
 }
 
+button:active {
+  border: none;
+  outline:none;
+}
+
 .logo {
   width:50%;
   height:50%
@@ -105,6 +110,20 @@ button {
   width:8%;
   height:8%;
   display: inline-block;
+}
+
+.icon_artist_miniature {
+  width:5%;
+  height:5%;
+  display: inline-block;
+  margin-right:10px;
+}
+
+.icon_title_miniature {
+  width:7.69%;
+  height:7.69%;
+  display: inline-block;
+  margin-right: 6px;
 }
 
 .classement, .playlist {
@@ -136,10 +155,6 @@ button {
 
 .li_first {
   color:#F3832B;
-}
-
-.li_second {
-  color:#A5E3F0;
 }
 
 .li_auth {

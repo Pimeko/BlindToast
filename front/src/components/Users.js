@@ -11,11 +11,11 @@ export default class Users extends Component {
               {
                 this.props.users.map((user, index) => {
                   var li_first = index === 0 ? "li_first" : "";
-                  var li_second = index === 1 ? "li_second" : "";
                   var li_auth = user.pseudo === this.props.authUserPseudo ? "li_auth" : "";
 
-                  return <li className={li_first +  " " + li_second + " " + li_auth}>
-                      {user.pseudo} <span className="user_score">{user.points}</span>
+                  return <li className={li_first + " " + li_auth}>
+                      {user.pseudo}
+                      <span className="user_score">{user.points}</span>
                     </li>
                   ;
                 })

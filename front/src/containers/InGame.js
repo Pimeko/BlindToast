@@ -11,6 +11,7 @@ import Users from '../components/Users'
 import AnswerBox from '../components/AnswerBox'
 import Playlist from '../components/Playlist'
 import FoundArtistAndTitle from '../components/FoundArtistAndTitle'
+import Winner from '../components/Winner'
 
 class InGame extends Component {
 
@@ -33,11 +34,19 @@ class InGame extends Component {
           <p>
             <br/>
             Round {this.props.round.currentRound} / {this.props.round.nbRounds}
+            {this.props.round.currentRound === this.props.round.nbRounds && !this.props.video.playing && (
+              <Winner authUserPseudo={this.props.authUser.pseudo} users={this.props.users}/>
+            )}
           </p>
-          <FoundArtistAndTitle authUser={this.props.authUser}/>
+
+          <div className="div_found">
+            <FoundArtistAndTitle foundArtist={this.props.authUser.foundArtist}
+              foundTitle={this.props.authUser.foundTitle} miniature={false}/>
+          </div>
           <br/>
 
-          <AnswerBox isActive={this.props.video.playing && !this.props.video.waitForTheEnd} sendAnswer={(val) => this.sendAnswer(val)}/>
+          <AnswerBox isActive={this.props.video.playing && !this.props.video.waitForTheEnd}
+            sendAnswer={(val) => this.sendAnswer(val)}/>
 
           <div style={{display: 'none'}}>
             {this.props.video.playing && !this.props.video.waitForTheEnd && (
