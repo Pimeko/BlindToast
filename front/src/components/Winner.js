@@ -22,14 +22,13 @@ export default class Winner extends Component {
   }
 
   render() {
-    console.log("WINNER" + this.state.winnerPseudo + " " + this.state.winnerPoints)
-    var winnerPseudo = this.state.winnerPseudo.toString();
-    var winnerPoints = this.state.winnerPoints.toString();
-    var toPrint = this.props.authUserPseudo === winnerPseudo ? "Bravo vous avez gagné !" :
-    "Le gagnant est " + winnerPseudo + " avec " + winnerPoints + " points !"
+    var toPrint = this.props.authUserPseudo === this.state.winnerPseudo ? "Bravo vous avez gagné !" :
+    "Le gagnant est " + this.state.winnerPseudo + " avec " + this.state.winnerPoints + " points !"
     return (
       <div>
-        {toPrint}
+        <h2>
+          {toPrint}
+        </h2>
       </div>
     );
   }
