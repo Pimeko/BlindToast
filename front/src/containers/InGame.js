@@ -10,6 +10,7 @@ import YouTubeVideo from '../components/YouTubeVideo'
 import Users from '../components/Users'
 import AnswerBox from '../components/AnswerBox'
 import Playlist from '../components/Playlist'
+import FoundArtistAndTitle from '../components/FoundArtistAndTitle'
 
 class InGame extends Component {
 
@@ -29,37 +30,21 @@ class InGame extends Component {
       <div>
         <Header/>
         <div className="box">
-          <div className="div_found">
-            <img src="artist_full.png" className="icon_artist"/>
-            <img src="title_empty.png" className="icon_title"/>
+          <p>
+            <br/>
+            Round {this.props.round.currentRound} / {this.props.round.nbRounds}
+          </p>
+          <FoundArtistAndTitle authUser={this.props.authUser}/>
+          <br/>
+
+          <AnswerBox isActive={this.props.video.playing && !this.props.video.waitForTheEnd} sendAnswer={(val) => this.sendAnswer(val)}/>
+
+          <div style={{display: 'none'}}>
+            {this.props.video.playing && !this.props.video.waitForTheEnd && (
+              <YouTubeVideo video={this.props.video} />
+            )}
           </div>
-          <br/>
-          {this.props.video.playing && !this.props.video.waitForTheEnd && (
-            <AnswerBox sendAnswer={(val) => this.sendAnswer(val)}/>
-          )}
-        </div>
-        <p>
-          In Game, connected with : {this.props.authUser.pseudo} <br/>
-          Found artist : {this.props.authUser.foundArtist.toString()} <br/>
-          Found title : {this.props.authUser.foundTitle.toString()} <br/>
-
-          Wait for the end : {this.props.video.waitForTheEnd.toString()} <br/>
-          Playing : {this.props.video.playing.toString()} <br/>
-          Points : {this.props.authUser.points} <br/>
-
-          <br/>
-          Current round : {this.props.round.currentRound} <br/>
-          Nb rounds : {this.props.round.nbRounds}
-        </p>
-        <div style={{display: 'none'}}>
-          {this.props.video.playing && !this.props.video.waitForTheEnd && (
-            <YouTubeVideo video={this.props.video} />
-          )}
-        </div>
-        <div>
-          <Users users={this.props.users}/>
-        </div>
-        <div>
+          <Users users={this.props.users} authUserPseudo={this.props.authUser.pseudo}/>
           <Playlist playlist={this.props.video.playlist}/>
         </div>
         <Footer/>

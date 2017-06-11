@@ -34,8 +34,9 @@ export default class AnswerBox extends Component {
     return (
       <div>
         <input value={this.state.inputValue} onChange={this.updateInputValue}
-          onKeyPress={(event) => this.handleEnterInput(event, this)} placeholder="Votre réponse"
-          ref={(el) => this.inputAnswer = el} className="input_answer" type="text"/>
+          onKeyPress={(event) => this.handleEnterInput(event, this)} placeholder={this.props.isActive ? "Votre réponse" : "Patientez..." }
+          ref={(el) => this.inputAnswer = el} className={this.props.isActive ? "input_answer" : "input_answer_disabled"}
+          type="text" readOnly={!this.props.isActive}/>
         <button onClick={() => this.sendAnswer()} className="ok_button">OK</button>
       </div>
     );

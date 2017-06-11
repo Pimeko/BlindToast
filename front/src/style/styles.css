@@ -16,6 +16,13 @@ body {
   font-family: mobiloFont-light;
 }
 
+header, footer {
+  text-align: center;
+  color:white;
+  padding:10px;
+  font-size: 20px;
+}
+
 .box {
   background-color: #F7F7F7;
   margin-left: auto;
@@ -48,6 +55,16 @@ input[type=text]:focus {
   vertical-align: bottom;
   border: 0px;
   border-radius: 3px 0px 0px 3px;
+}
+
+.input_answer_disabled {
+  height: 40px;
+  width: 250px;
+  padding-left: 5px;
+  vertical-align: bottom;
+  border: 0px;
+  border-radius: 3px 0px 0px 3px;
+  background-color: #AFAFAF;
 }
 
 button {
@@ -90,9 +107,69 @@ button {
   display: inline-block;
 }
 
-header, footer {
+.classement, .playlist {
+  display: inline-block;
+  vertical-align: top;
+  width:330px;
+  margin:20px 0px 0px 0px;
+  font-family: mobiloFont-regular;
+}
+
+.grey_title {
+  background-color:#E7E6E6;
+  color:black;
+  font-size: 12px;
+  border: solid 1px #CACACA;
+}
+
+.classement {
+  background-color: white;
+  height: 300px;
+}
+
+.classement ul {
+  list-style-type: none;
+  margin: 3px;
+  padding: 2px;
+  text-align: left;
+}
+
+.li_first {
+  color:#F3832B;
+}
+
+.li_second {
+  color:#A5E3F0;
+}
+
+.li_auth {
+  background-color:#E7E6E6;
+}
+
+.user_score {
+  float: right;
+}
+
+.playlist {
+  background-color: #E7E6E6;
+  height: 300px;
+}
+
+.playlist_container, .classement_container {
+  display: flex;
+  flex-direction: column;
   text-align: center;
-  color:white;
-  padding:10px;
-  font-size: 20px;
+  overflow: hidden;
+  height:280px;
+}
+
+.playlist_container:hover, .classement_container:hover {
+  overflow-y:scroll;
+}
+
+.playlist_item {
+  background-color: white;
+  margin: 5px 20px;
+  padding: 3px;
+  border-radius: 2px;
 }
