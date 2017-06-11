@@ -23,10 +23,10 @@ var path = require('path');
 var clients = [];
 var clientsToSend = [];
 var videoList = [
-  {'id' : "YhtUfOnGJ3E", 'artist' : 'Timber Timbre', 'title' : 'Trouble comes knocking comes knocking comes knocking comes knocking comes knocking comes knocking'},
-  {'id' : "Rk7B-E4oIWA", 'artist' : 'Timber Timbre', 'title' : 'Lay down in the tall grass Lay down in the tall grassLay down in the tall grassLay down in the tall grassLay down in the tall grass'},
-  {'id' : "2R-Ikfyh-6Q", 'artist' : 'Timber Timbre', 'title' : 'Lonesome Hunter Hunter Hunter Hunter Hunter'},
-  {'id' : "cBU8reYYE10", 'artist' : 'Timber Timbre', 'title' : 'We\'ll Find Out Find Out Find Out Find Out Find Out'}];
+  {'id' : "YhtUfOnGJ3E", 'artist' : 'Timber Timbre', 'title' : 'Trouble comes knocking'},
+  {'id' : "Rk7B-E4oIWA", 'artist' : 'Timber Timbre', 'title' : 'Lay down in the tall grass'},
+  {'id' : "2R-Ikfyh-6Q", 'artist' : 'Timber Timbre', 'title' : 'Lonesome Hunter'},
+  {'id' : "cBU8reYYE10", 'artist' : 'Timber Timbre', 'title' : 'We\'ll Find Out'}];
 var videosPlayed = [];
 
 var videoIndex = 0;
