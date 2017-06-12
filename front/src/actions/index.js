@@ -40,9 +40,9 @@ export const wait_for_the_end = () => ({
   type: types.WAIT_FOR_THE_END
 })
 
-export const end_video = (currVideo) => ({
+export const end_video = (videosInfo) => ({
   type: types.END_VIDEO,
-  currVideo
+  videosInfo
 })
 
 export const update_round = (round) => ({

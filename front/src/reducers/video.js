@@ -2,7 +2,7 @@ import * as types from '../types';
 
 export default function video (
   state = {
-    id: '2g811Eo7K8U',
+    id: '',
     playing: true,
     waitForTheEnd: false,
     playlist: []
@@ -11,19 +11,21 @@ export default function video (
 ) {
   switch (action.type) {
     case types.CHANGE_VIDEO:
+      console.log("CHANGE VIDEO ------------------------------ ", action)
       return {
         ...state,
-        id: action.video.id,
+        id: state.id === '' ? action.video.id : state.id,
         playing: true,
         waitForTheEnd: false
       };
     case types.END_VIDEO:
       return {
         ...state,
+        id: action.videosInfo.newVideoId,
         playing: false,
         waitForTheEnd: false,
         playlist: [
-          action.currVideo,
+          action.videosInfo.prevVideo,
           ...state.playlist
         ]
       };

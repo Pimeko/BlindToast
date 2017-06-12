@@ -192,6 +192,7 @@ function changeVideoIndex() {
   } while (videoIndex in videosPlayed);
 
   videosPlayed.push(videoIndex);
+  currVideo = videoList[videoIndex];
 }
 
 function splitAndLower(array) {
@@ -213,7 +214,6 @@ function updateRound(socket) {
 }
 
 function emitNewVideo() {
-  currVideo = videoList[videoIndex];
   titlesList = splitAndLower(currVideo.title);
   artistsList = splitAndLower(currVideo.artist);
 
@@ -327,7 +327,6 @@ function changeVideo() {
   }
 
   musicPlaying = true;
-  changeVideoIndex();
   emitNewVideo();
 }
 
@@ -355,6 +354,8 @@ function loopMusic() {
   }, musicTime * 1000);
 }
 
+changeVideoIndex();
+currVideo = videoList[videoIndex];
 // Emit every n seconds
 loopMusic();
 setInterval(loopMusic, (musicTime + pauseTime) * 1000);
@@ -366,6 +367,9 @@ function endMusic() {
 }
 
 function emitEndMusic() {
+  var prevVideo = currVideo;
+  changeVideoIndex();
+
   for (var client of clients) {
     console.log(client.pseudo);
 
@@ -380,7 +384,10 @@ function emitEndMusic() {
     currClientToSend.foundArtist = false;
 
     client.socket.emit("message", "End video");
-    client.socket.emit('end_video', currVideo);
+    client.socket.emit('end_video', {
+      'prevVideo': prevVideo,
+      'newVideoId': videoList[videoIndex].id
+    });
     updateClientToSendLocal(currClientToSend);
     updateAllUsers(client.socket);
   }

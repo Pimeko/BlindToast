@@ -48,11 +48,7 @@ class InGame extends Component {
           <AnswerBox isActive={this.props.video.playing && !this.props.video.waitForTheEnd}
             sendAnswer={(val) => this.sendAnswer(val)}/>
 
-          <div style={{display: 'none'}}>
-            {this.props.video.playing && !this.props.video.waitForTheEnd && (
-              <YouTubeVideo video={this.props.video} />
-            )}
-          </div>
+          <YouTubeVideo video={this.props.video} />
           <Users users={this.props.users} authUserPseudo={this.props.authUser.pseudo}/>
           <Playlist playlist={this.props.video.playlist}/>
         </div>
