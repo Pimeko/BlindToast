@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { socket_answer } from '../actions'
-//import { browserHistory } from 'react-router'
+import { browserHistory } from 'react-router'
 
 // Components
 import Header from '../components/Header'
@@ -18,11 +18,11 @@ import Round from '../components/Round'
 class InGame extends Component {
 
   // Checks if the user is connected, redirects to / if not
-  /*componentWillMount() {
-    if (this.props.userId === '') {
+  componentWillMount() {
+    if (this.props.authUser === "") {
       browserHistory.push('/');
     }
-  }*/
+  }
 
   sendAnswer(val) {
     this.props.dispatch(socket_answer(val));
@@ -35,7 +35,7 @@ class InGame extends Component {
         <div className="box">
           <Round round={this.props.round}/>
           <br/>
-          <Timer playing={this.props.video.playing}/>
+          <Timer video={this.props.video}/>
 <br/>
           {this.props.round.currentRound === this.props.round.nbRounds && !this.props.video.playing && (
             <Winner authUserPseudo={this.props.authUser.pseudo} users={this.props.users}/>
@@ -71,7 +71,7 @@ function mapStateToProps(state) {
   });
 
   return {
-    authUser: entities.users[auth.userId],
+    authUser: ('users' in entities && auth.userId in entities.users) ? entities.users[auth.userId] : "",
     users: usersList,
     video: video,
     round: round

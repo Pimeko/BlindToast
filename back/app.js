@@ -36,7 +36,7 @@ var artistsList = [];
 var musicPlaying = false;
 var nbMusicsPlayed = 0;
 var nbMusicsPerRound = 2;
-var musicTime = 8, pauseTime = 5;
+var musicTime = 10, pauseTime = 5;
 
 io.sockets.on('connection', function (socket) {
   socket.on("message", function (message) {

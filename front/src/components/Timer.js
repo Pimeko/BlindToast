@@ -12,7 +12,8 @@ export default class Timer extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if (newProps.playing) {
+    console.log("getting new props : ", newProps);
+    if (newProps.video.playing && !newProps.video.waitForTheEnd) {
       if (!this.state.isRunning) {
         this.setState({
           isRunning: true,
