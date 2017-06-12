@@ -23,10 +23,34 @@ var path = require('path');
 var clients = [];
 var clientsToSend = [];
 var videoList = [
+  /*
   {'id' : "YhtUfOnGJ3E", 'artist' : 'Timber Timbre', 'title' : 'Trouble comes knocking'},
   {'id' : "Rk7B-E4oIWA", 'artist' : 'Timber Timbre', 'title' : 'Lay down in the tall grass'},
   {'id' : "2R-Ikfyh-6Q", 'artist' : 'Timber Timbre', 'title' : 'Lonesome Hunter'},
-  {'id' : "cBU8reYYE10", 'artist' : 'Timber Timbre', 'title' : 'We\'ll Find Out'}];
+  {'id' : "cBU8reYYE10", 'artist' : 'Timber Timbre', 'title' : 'We\'ll Find Out'},*/
+  {'id' : "JiUNTdFX8G8", 'artist' : 'Eminem Rihanna', 'title' : 'Love the way you lie'},
+  {'id' : "M-GYWxCqepI", 'artist' : 'Ed Sheeran', 'title' : 'Shape of you'},
+  {'id' : "Pvq_dzWMeeM", 'artist' : 'Julian Perretta', 'title' : 'Wonder Why'},
+  {'id' : "DUT5rEU6pqM", 'artist' : 'Shakira', 'title' : 'Hips don\'t lie'},
+  {'id' : "IS6n2Hx9Ykk", 'artist' : 'Led Zeppelin', 'title' : 'Stairway to heaven'},
+  {'id' : "VJDJs9dumZI", 'artist' : 'The Beatles', 'title' : 'While my guitar gently weeps'},
+  {'id' : "ih-8K1a_SsA", 'artist' : 'The Beatles', 'title' : 'Let it be'},
+  {'id' : "4VR2T5n6tSE", 'artist' : 'Coldplay', 'title' : 'Viva la vida'},
+  {'id' : "1uYWYWPc9HU", 'artist' : 'Radiohead', 'title' : 'Karma Police'},
+  {'id' : "uJ_1HMAGb4k", 'artist' : 'Vance Joy', 'title' : 'Riptide'},
+  {'id' : "pI2Q8L8L3Ks", 'artist' : 'Maroon 5', 'title' : 'This Love'},
+  {'id' : "3ksDzlmoU8E", 'artist' : 'Aaron', 'title' : 'Lili'},
+  {'id' : "yb_uI5iLesQ", 'artist' : 'Orelsan', 'title' : 'La terre est ronde'},
+  {'id' : "tC5IiYpozuE", 'artist' : 'Alicia Keys', 'title' : 'No one'},
+  {'id' : "rs6Y4kZ8qtw", 'artist' : 'Manu Chao', 'title' : 'Me gustas tu'},
+  {'id' : "-5m1enOt0OQ", 'artist' : 'Britney Spears', 'title' : 'Baby one more time'},
+  {'id' : "EC7Re8cczj0", 'artist' : 'Carla Bruni', 'title' : 'Quelqu\'un m\'a dit'},
+  {'id' : "gx37CH4_FoM", 'artist' : 'Vianney', 'title' : 'Je m\'en vais'},
+  {'id' : "ZdlE2VBTAUA", 'artist' : 'Black Eyed Peas', 'title' : 'Shut Up'},
+  {'id' : "jLlmNbuzUUE", 'artist' : 'Axelle Red', 'title' : 'Sensualité'},
+  {'id' : "TIUwLfpufs0", 'artist' : 'Red Hot Chili Peppers', 'title' : 'Can\'t Stop'},
+  {'id' : "XdAvX0Mvm4c", 'artist' : 'Stromae', 'title' : 'Formidable'}
+];
 var videosPlayed = [];
 
 var videoIndex = 0;
@@ -35,8 +59,8 @@ var titlesList = [];
 var artistsList = [];
 var musicPlaying = false;
 var nbMusicsPlayed = 0;
-var nbMusicsPerRound = 2;
-var musicTime = 10, pauseTime = 5;
+var nbMusicsPerRound = 10;
+var musicTime = 15, pauseTime = 5;
 
 io.sockets.on('connection', function (socket) {
   socket.on("message", function (message) {
@@ -303,8 +327,8 @@ function changeVideo() {
   }
 
   musicPlaying = true;
-  emitNewVideo();
   changeVideoIndex();
+  emitNewVideo();
 }
 
 function restartGame() {

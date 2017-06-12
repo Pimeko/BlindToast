@@ -8,7 +8,7 @@ export default class Timer extends Component {
       secondsRemaining: 10
     };
     this.tick = this.tick.bind(this);
-    this.interval = setInterval(this.tick, 1000);
+    this.interval = setInterval(this.tick, 1500);
   }
 
   componentWillReceiveProps(newProps) {
@@ -20,7 +20,7 @@ export default class Timer extends Component {
           secondsRemaining: 10
         })
         clearInterval(this.interval);
-        this.interval = setInterval(this.tick, 1000);
+        this.interval = setInterval(this.tick, 1500);
       }
     }
     else {
