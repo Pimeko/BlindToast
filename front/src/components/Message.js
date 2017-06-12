@@ -45,7 +45,24 @@ export default class Message extends Component {
       }
     }
     else {
-      this.updateMessage("C'est parti !");
+      if (props.answer.foundArtist && props.answer.foundTitle) {
+        this.updateMessage("Wow, un grand champion en devenir !");
+      }
+      else if (props.answer.foundArtist) {
+        this.updateMessage("Et un artiste, un !");
+      }
+      else if (props.answer.foundTitle) {
+        this.updateMessage("Le titre, c'est géré !");
+      }
+      else if (props.answer.foundAtLeastOne) {
+        this.updateMessage("Il manque des mots, mais c'est presque ca ...");
+      }
+      else if (props.answer.hasAnsweredOnce) {
+        this.updateMessage("Oula, c'est pas du tout ça...");
+      }
+      else {
+        this.updateMessage("C'est parti !");
+      }
     }
   }
 

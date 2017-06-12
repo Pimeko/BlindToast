@@ -262,17 +262,26 @@ function onAnswer(socket, val, pseudo) {
     currClientToSend.foundArtist = currClient.artistsFound.length === artistsList.length;
   }
 
+  var answerToSend = {
+    'foundTitle' : false,
+    'foundArtist' : false,
+    'foundAtLeastOne' : foundAtLeastOne
+  }
   socket.emit("message", "Found at least one : " + foundAtLeastOne);
 
   if (!hadTitle && currClient.titlesFound.length === titlesList.length) {
     currClientToSend.points++;
     socket.emit("message", "Found title !");
+    answerToSend.foundTitle = true;
   }
 
   if (!hadArtist && currClient.artistsFound.length === artistsList.length) {
     currClientToSend.points++;
     socket.emit("message", "Found artist !");
+    answerToSend.foundArtist = true;
   }
+
+  socket.emit("answer", answerToSend);
 
   updateClientToSendLocal(currClientToSend);
   updateAllUsers(socket);

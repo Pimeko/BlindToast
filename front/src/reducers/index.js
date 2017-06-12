@@ -7,6 +7,7 @@ import video from './video';
 import entities from './entities';
 import round from './round';
 import users from './users';
+import answer from './answer';
 
 const rootReducer = combineReducers({
   auth,
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   entities,
   round,
   users,
+  answer,
   routing
 })
 
