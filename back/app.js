@@ -23,11 +23,6 @@ var path = require('path');
 var clients = [];
 var clientsToSend = [];
 var videoList = [
-  /*
-  {'id' : "YhtUfOnGJ3E", 'artist' : 'Timber Timbre', 'title' : 'Trouble comes knocking'},
-  {'id' : "Rk7B-E4oIWA", 'artist' : 'Timber Timbre', 'title' : 'Lay down in the tall grass'},
-  {'id' : "2R-Ikfyh-6Q", 'artist' : 'Timber Timbre', 'title' : 'Lonesome Hunter'},
-  {'id' : "cBU8reYYE10", 'artist' : 'Timber Timbre', 'title' : 'We\'ll Find Out'},*/
   {'id' : "JiUNTdFX8G8", 'artist' : 'Eminem Rihanna', 'title' : 'Love the way you lie'},
   {'id' : "M-GYWxCqepI", 'artist' : 'Ed Sheeran', 'title' : 'Shape of you'},
   {'id' : "Pvq_dzWMeeM", 'artist' : 'Julian Perretta', 'title' : 'Wonder Why'},
@@ -49,7 +44,23 @@ var videoList = [
   {'id' : "ZdlE2VBTAUA", 'artist' : 'Black Eyed Peas', 'title' : 'Shut Up'},
   {'id' : "jLlmNbuzUUE", 'artist' : 'Axelle Red', 'title' : 'Sensualité'},
   {'id' : "TIUwLfpufs0", 'artist' : 'Red Hot Chili Peppers', 'title' : 'Can\'t Stop'},
-  {'id' : "XdAvX0Mvm4c", 'artist' : 'Stromae', 'title' : 'Formidable'}
+  {'id' : "XdAvX0Mvm4c", 'artist' : 'Stromae', 'title' : 'Formidable'},
+  {'id' : "X024NEsDyC8", 'artist' : 'Katy Perry', 'title' : 'I kissed a girl'},
+  {'id' : "T2PAkPp0_bY", 'artist' : 'Michael Jackson', 'title' : 'Beat it'},
+  {'id' : "1BdPDaFXcEo", 'artist' : 'Celine Dion', 'title' : 'My heart will go on'},
+  {'id' : "qcOK_YATp6U", 'artist' : 'Green Day', 'title' : '21 Guns'},
+  {'id' : "ZrujXrB1_aE", 'artist' : 'Muse', 'title' : 'Time is running out'},
+  {'id' : "3KHJKj9GgsI", 'artist' : 'Kean', 'title' : 'Somewhere only we know'},
+  {'id' : "As_Yk5sW0Pw", 'artist' : 'Guns N\' Roses', 'title' : 'Paradise City'},
+  {'id' : "KXJNoC6CuYE", 'artist' : 'Fun', 'title' : 'We are young'},
+  {'id' : "f5shipypasU", 'artist' : 'BB Brunes', 'title' : 'Dis moi'},
+  {'id' : "tCnBrrnOefs", 'artist' : 'Justice', 'title' : 'DANCE'},
+  {'id' : "v6rfv5Pb6R4", 'artist' : 'Estelle', 'title' : 'American Boy'},
+  {'id' : "JjW5ygsyjTI", 'artist' : 'Amy Winehouse', 'title' : 'Rehab'},
+  {'id' : "FWBHHg6jplY", 'artist' : 'Daft Punk', 'title' : 'Instant Crush'},
+  {'id' : "DqRC5tquyU0", 'artist' : 'Gotye', 'title' : 'Somebody that I used to know'},
+  {'id' : "t0imaSCnSuA", 'artist' : 'Hozier', 'title' : 'Take me to church'},
+  {'id' : "gN3gNuRdVmg", 'artist' : 'Rihanna', 'title' : 'Umbrella'}
 ];
 var videosPlayed = [];
 
