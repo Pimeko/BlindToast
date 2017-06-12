@@ -50,7 +50,7 @@ var videoList = [
   {'id' : "1BdPDaFXcEo", 'artist' : 'Celine Dion', 'title' : 'My heart will go on'},
   {'id' : "qcOK_YATp6U", 'artist' : 'Green Day', 'title' : '21 Guns'},
   {'id' : "ZrujXrB1_aE", 'artist' : 'Muse', 'title' : 'Time is running out'},
-  {'id' : "3KHJKj9GgsI", 'artist' : 'Kean', 'title' : 'Somewhere only we know'},
+  {'id' : "3KHJKj9GgsI", 'artist' : 'Keane', 'title' : 'Somewhere only we know'},
   {'id' : "As_Yk5sW0Pw", 'artist' : 'Guns N\' Roses', 'title' : 'Paradise City'},
   {'id' : "KXJNoC6CuYE", 'artist' : 'Fun', 'title' : 'We are young'},
   {'id' : "f5shipypasU", 'artist' : 'BB Brunes', 'title' : 'Dis moi'},
@@ -72,6 +72,11 @@ var musicPlaying = false;
 var nbMusicsPlayed = 0;
 var nbMusicsPerRound = 10;
 var musicTime = 15, pauseTime = 5;
+
+
+
+console.log("Server started on port 8080 :)");
+server.listen(8080);
 
 io.sockets.on('connection', function (socket) {
   socket.on("message", function (message) {
@@ -200,7 +205,7 @@ function getRandomInt(min, max) {
 function changeVideoIndex() {
   do {
     videoIndex = getRandomInt(0, videoList.length - 1);
-  } while (videoIndex in videosPlayed);
+  } while (videosPlayed.indexOf(videoIndex) !== -1);
 
   videosPlayed.push(videoIndex);
   currVideo = videoList[videoIndex];
@@ -232,7 +237,6 @@ function emitNewVideo() {
   for (var client of clients) {
     console.log(client.pseudo);
 
-    client.socket.emit("message", "Change video to " + currVideo.title);
     client.socket.emit('change_video', currVideo);
     updateRound(client.socket);
   }
@@ -403,6 +407,3 @@ function emitEndMusic() {
     updateAllUsers(client.socket);
   }
 }
-
-console.log("Server started on port 8080 :)");
-server.listen(8080);
