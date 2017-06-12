@@ -42,12 +42,16 @@ export default class Timer extends Component {
   }
 
   render() {
-    var imgPath="toast/" + this.state.secondsRemaining + ".png";
+    var imgPath="toast/Toast_" + this.state.secondsRemaining + ".png";
     return (
       <div>
-        {this.state.isRunning && (
+        {this.state.isRunning ? (
           <center>
             <img src={imgPath} alt="toast"/>
+          </center>
+        ) : (
+          <center>
+            <img src="toast/Toast_0.png" alt="toast"/>
           </center>
         )}
       </div>
