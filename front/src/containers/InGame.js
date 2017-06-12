@@ -14,6 +14,7 @@ import FoundArtistAndTitle from '../components/FoundArtistAndTitle'
 import Winner from '../components/Winner'
 import Timer from '../components/Timer'
 import Round from '../components/Round'
+import Message from '../components/Message'
 
 class InGame extends Component {
 
@@ -35,11 +36,9 @@ class InGame extends Component {
         <div className="box">
           <Round round={this.props.round}/>
           <br/>
+          <Message video={this.props.video} round={this.props.round} users={this.props.users}/>
           <Timer video={this.props.video}/>
-<br/>
-          {this.props.round.currentRound === this.props.round.nbRounds && !this.props.video.playing && (
-            <Winner authUserPseudo={this.props.authUser.pseudo} users={this.props.users}/>
-          )}
+          <br/>
 
           <div className="div_found">
             <FoundArtistAndTitle foundArtist={this.props.authUser.foundArtist}
