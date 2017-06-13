@@ -60,7 +60,9 @@ var videoList = [
   {'id' : "FWBHHg6jplY", 'artist' : 'Daft Punk', 'title' : 'Instant Crush'},
   {'id' : "DqRC5tquyU0", 'artist' : 'Gotye', 'title' : 'Somebody that I used to know'},
   {'id' : "t0imaSCnSuA", 'artist' : 'Hozier', 'title' : 'Take me to church'},
-  {'id' : "gN3gNuRdVmg", 'artist' : 'Rihanna', 'title' : 'Umbrella'}
+  {'id' : "gN3gNuRdVmg", 'artist' : 'Rihanna', 'title' : 'Umbrella'},
+  {'id' : "HVHUjzZZGQ4", 'artist' : 'Weezer', 'title' : 'Island in the sun'}
+
 ];
 var videosPlayed = [];
 
@@ -161,7 +163,7 @@ function login(socket, pseudo) {
   };
   clientsToSend.push(clientToSend);
 
-  console.log('New login : ', clientToSend);
+  console.log('New login : ', clientToSend.pseudo);
   socket.emit("login_success", clientToSend);
   updateRound(socket);
   if (musicPlaying) {
@@ -235,7 +237,7 @@ function emitNewVideo() {
 
   console.log("New music : " + currVideo.title + " by " + currVideo.artist)
   for (var client of clients) {
-    console.log(client.pseudo);
+    console.log("updating " + client.pseudo);
 
     client.socket.emit('change_video', currVideo);
     updateRound(client.socket);
